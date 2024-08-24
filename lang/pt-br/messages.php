@@ -17,4 +17,7 @@ return [
     'save' => 'Salvar',
     'saved' => 'Salvo.',
     'deleteAccount' => 'Deletar conta',
+    'roteiros' => 'Roteiros',
+    'roteiroNew' => 'Novo roteiro',
+    'roteiroEdit' => 'Editar roteiro',
 ];
