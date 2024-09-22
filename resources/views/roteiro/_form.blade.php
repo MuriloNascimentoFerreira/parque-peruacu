@@ -42,7 +42,7 @@
     <div>
         <x-input-label for="nivel" :value="__('Nível')" />
         <select id="nivel" name="nivel" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" required>
-            <option value="{{ $entity->nivel->value ?? ''}}">{{ $entity->nivel->getDescription() ?? 'Selecione um nível'}}</option>
+            <option value="{{ isset($entity->nivel) ? $entity->nivel->value : ''}}">{{ isset($entity->nivel) ? $entity->nivel->getDescription() : 'Selecione um nível'}}</option>
             @foreach (\App\Models\Enums\Niveis::cases() as $nivel)
                 <option value="{{ $nivel->value }}">{{ $nivel->getDescription() }}</option>
             @endforeach

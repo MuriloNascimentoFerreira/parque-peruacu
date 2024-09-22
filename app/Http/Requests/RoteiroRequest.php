@@ -14,7 +14,7 @@ class RoteiroRequest extends FormRequest
      */
     public function authorize()
     {
-        if($this->user()->hasRole(Profile::USER_ADMINISTRADOR)){
+        if($this->user()->profile === Profile::USER_ADMINISTRADOR){
 
             return true;
         }
