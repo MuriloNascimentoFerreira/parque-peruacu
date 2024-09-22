@@ -18,7 +18,7 @@ class RoteiroController extends Controller
     {
         $entities = Roteiro::all();
 
-        // $entities = Roteiro::paginate(10);
+        $entities = Roteiro::paginate(10);
         return view('roteiro.index')->with('entities', $entities);
     }
 

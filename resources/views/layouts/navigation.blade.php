@@ -20,8 +20,16 @@
                 <!-- Navigation Links -->
                 @can('admin')
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-nav-link :href="route('roteiros.index')" :active="request()->routeIs('roteiros.index')">
+                        <x-nav-link :href="route('roteiros.index')" :active="request()->routeIs('roteiros.*')">
                             {{ __('messages.roteiros') }}
+                        </x-nav-link>
+                    </div>
+                @endcan
+
+                @can('admin')
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-nav-link :href="route('visitas.index')" :active="request()->routeIs('visitas.*')">
+                            {{ __('messages.visitas') }}
                         </x-nav-link>
                     </div>
                 @endcan
@@ -107,3 +115,4 @@
         </div>
     </div>
 </nav>
+
