@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoteiroController;
+use App\Http\Controllers\VisitaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,9 +29,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    //Criar grupos para que apenas gerente possa cadastrar um roteiro
-
+    /* OBS: As rotas resource tem que está no plural para funcionamento correto */
     Route::resource('roteiros', RoteiroController::class);
+    Route::resource('visitas', VisitaController::class);
+
 });
 
 require __DIR__.'/auth.php';

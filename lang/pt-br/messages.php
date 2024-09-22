@@ -20,4 +20,7 @@ return [
     'roteiros' => 'Roteiros',
     'roteiroNew' => 'Novo roteiro',
     'roteiroEdit' => 'Editar roteiro',
+    'visitas' => 'Visitas',
+    'visitasNew' => 'Nova visita',
+    'visitaEdit' => 'Editar visita',
 ];
