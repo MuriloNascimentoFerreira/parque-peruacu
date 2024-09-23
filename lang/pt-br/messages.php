@@ -23,4 +23,8 @@ return [
     'visitas' => 'Visitas',
     'visitasNew' => 'Nova visita',
     'visitaEdit' => 'Editar visita',
+    'condutores' => 'Condutores',
+    'condutorNew' => 'Novo condutor',
+    'condutorEdit' => 'Editar condutor',
+    'condutor' => 'Condutor',
 ];
