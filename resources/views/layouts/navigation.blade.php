@@ -41,6 +41,14 @@
                         </x-nav-link>
                     </div>
                 @endcan
+
+                @can('admin')
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-nav-link :href="route('agendamentos.index')" :active="request()->routeIs('agendamentos.*')">
+                            {{ __('messages.agendamentos') }}
+                        </x-nav-link>
+                    </div>
+                @endcan
             </div>
 
             <!-- Settings Dropdown -->
@@ -114,6 +122,13 @@
             <div class="pt-2 pb-3 space-y-1">
                 <x-responsive-nav-link :href="route('condutores.index')" :active="request()->routeIs('condutores.*')">
                     {{ __('messages.condutores') }}
+                </x-responsive-nav-link>
+            </div>
+        @endcan
+        @can('admin')
+            <div class="pt-2 pb-3 space-y-1">
+                <x-responsive-nav-link :href="route('agendamentos.index')" :active="request()->routeIs('agendamentos.*')">
+                    {{ __('messages.agendamentos') }}
                 </x-responsive-nav-link>
             </div>
         @endcan

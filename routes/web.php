@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AgendamentoController;
 use App\Http\Controllers\CondutorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoteiroController;
@@ -37,6 +38,9 @@ Route::middleware('auth')->group(function () {
         'condutores' => 'condutor',
     ]);
 
+    Route::resource('agendamentos', AgendamentoController::class)->parameters([
+        'agendamentos' => 'agendamento',
+    ]);
 
 });
 

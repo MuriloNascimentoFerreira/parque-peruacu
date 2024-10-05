@@ -27,4 +27,9 @@ return [
     'condutorNew' => 'Novo condutor',
     'condutorEdit' => 'Editar condutor',
     'condutor' => 'Condutor',
+    'agendamentos' => 'Agendamentos',
+    'agendamentoNew' => 'Novo agendamento',
+    'agendamentoEdit' => 'Editar agendamento',
+    'agendamento' => 'Agendamento',
+
 ];

@@ -22,23 +22,6 @@ class CondutorRequest extends FormRequest
         return false;
     }
 
-    public function prepareForValidation()
-    {
-
-    }
-
-    protected $fillable = [
-        'nome',
-        'apelido',
-        'email',
-        'localidade',
-        'linguasEstrangeiras',
-        'escolaridade',
-        'instagram',
-        'facebook',
-        'informacoes',
-    ];
-
     /**
      * Get the validation rules that apply to the request.
      *
