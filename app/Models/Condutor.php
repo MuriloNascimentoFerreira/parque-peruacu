@@ -28,6 +28,7 @@ class Condutor extends Model
         'instagram',
         'facebook',
         'informacoes',
+        'localidade_id'
     ];
 
     /**
@@ -38,4 +39,9 @@ class Condutor extends Model
     protected $casts = [
         'escolaridade' => Escolaridade::class,
     ];
+
+    public function localidade()
+    {
+        return $this->belongsTo(Localidade::class);
+    }
 }

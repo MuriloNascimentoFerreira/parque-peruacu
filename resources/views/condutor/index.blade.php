@@ -22,9 +22,6 @@
                                         <th scope="col" class="px-3 py-3">Localidade</th>
                                         <th scope="col" class="px-3 py-3">Línguas Estrangeiras</th>
                                         <th scope="col" class="px-3 py-3">Escolaridade</th>
-                                        <th scope="col" class="px-3 py-3">Instagram</th>
-                                        <th scope="col" class="px-3 py-3">Facebook</th>
-                                        <th scope="col" class="px-3 py-3">Informações</th>
                                         <th scope="col" class="px-1 py-1">Ações</th>
 
                                     </tr>
@@ -32,18 +29,28 @@
                                 <tbody>
                                     @foreach ($entities as $entity)
                                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                            <td class="px-6 py-4">{{$entity->id}}</td>
+                                            <td class="px-6 py-4">
+                                                <button class="text-blue-500 hover:text-blue-600 hover:underline"
+                                                data-modal-target="visualizar-condutor-{{$entity->id}}"
+                                                data-modal-toggle="visualizar-condutor-{{$entity->id}}">
+                                                    {{ $entity->id }}
+                                                </button>
+                                            </td>
                                             <td class="px-6 py-4">{{$entity->nome}}</td>
                                             <td class="px-6 py-4">{{$entity->apelido}}</td>
                                             <td class="px-6 py-4">{{$entity->email}}</td>
-                                            <td class="px-6 py-4">{{$entity->localidade}}</td>
+                                            <td class="px-6 py-4">{{$entity->localidade->cidade}}-{{$entity->localidade->uf}}</td>
                                             <td class="px-6 py-4">{{$entity->linguasEstrangeiras}}</td>
                                             <td class="px-6 py-4">{{$entity->escolaridade->getDescription()}}</td>
-                                            <td class="px-6 py-4">{{$entity->instagram}}</td>
-                                            <td class="px-6 py-4">{{$entity->facebook}}</td>
-                                            <td class="px-6 py-4">{{$entity->informacoes}}</td>
 
                                             <td class="px-2 py-1">
+
+                                                <button data-modal-target="visualizar-condutor-{{$entity->id}}"
+                                                    data-modal-toggle="visualizar-condutor-{{$entity->id}}"
+                                                    class="text-black hover:text-gray-600 mr-2"
+                                                    type="button">
+                                                    <i class="fa-solid fa-eye fa-lg"></i>
+                                                </button>
 
                                                 <x-button-edit route="condutores.edit" :entity="$entity"/>
 
@@ -52,6 +59,9 @@
                                             </td>
 
                                         </tr>
+
+                                        @include('condutor.modal-show', $entity)
+
                                     @endforeach
                                 </tbody>
                             </table>

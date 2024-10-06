@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CondutorRequest;
 use App\Models\Condutor;
+use App\Models\Localidade;
+use App\Services\CondutorService;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -36,10 +38,10 @@ class CondutorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CondutorRequest $request)
+    public function store(CondutorRequest $request, CondutorService $service)
     {
         try{
-            $entity = Condutor::create($request->all());
+            $entity = $service->create($request->all());
             if($entity){
                 return redirect()->route('condutores.index')->with('success', 'Novo condutor criado com sucesso!');
             }
@@ -78,10 +80,10 @@ class CondutorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CondutorRequest $request, Condutor $condutor)
+    public function update(CondutorRequest $request, Condutor $condutor, CondutorService $service)
     {
         try{
-            $result = $condutor->update($request->all());
+            $result = $service->update($condutor, $request->all());
             if($result){
                 return redirect()->route('condutores.index')->with('success', 'Condutor editado com sucesso!');
             }
@@ -100,6 +102,7 @@ class CondutorController extends Controller
     public function destroy(Condutor $condutor)
     {
         try{
+            $condutor->localidade()->delete();
             $result = $condutor->delete();
             if($result){
                 return redirect()->route('condutores.index')->with('success', 'Condutor excluído com sucesso!');

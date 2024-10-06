@@ -34,12 +34,15 @@ class CondutorRequest extends FormRequest
             'nome' => ['required','max:255','string'],
             'apelido' => ['required','max:255','string'],
             'email' => ['required','email'],
-            'localidade' => ['required','max:255','string'],
             'linguasEstrangeiras' => ['required','string'],
             'escolaridade' => ['required'],
             'instagram' => ['nullable','string','max:255'],
             'facebook' => ['nullable','string','max:255'],
             'informacoes' => ['nullable','string','max:255'],
+            'cep' => ['required','max:255','string'],
+            'cidade' => ['required','max:255','string'],
+            'uf' => ['required','max:2','string'],
+            'pais' => ['required','max:255','string'],
         ];
     }
     public function messages()
@@ -68,6 +71,19 @@ class CondutorRequest extends FormRequest
             'instagram.max' => 'O instagram não pode ter mais de 255 caracteres.',
             'facebook.max' => 'O facebook não pode ter mais de 255 caracteres.',
             'informacoes.max' => 'As informações não podem ter mais de 255 caracteres.',
+
+            'cep.required' => 'O CEP é obrigatório',
+            'cep.max' => 'O CEP não pode ter mais de 255 caracteres',
+            'cep.string' => 'O CEP deve ser uma string',
+            'cidade.required' => 'A Cidade é obrigatória',
+            'cidade.max' => 'A Cidade não pode ter mais de 255 caracteres',
+            'cidade.string' => 'A Cidade deve ser uma string',
+            'uf.required' => 'O UF é obrigatório',
+            'uf.max' => 'O UF não pode ter mais de 255 caracteres',
+            'uf.string' => 'O UF deve ser uma string',
+            'pais.required' => 'O Pais é obrigatório',
+            'pais.max' => 'O Pais não pode ter mais de 255 caracteres',
+            'pais.string' => 'O Pais deve ser uma string',
         ];
     }
 }
