@@ -38,11 +38,11 @@ class VisitaController extends Controller
      */
     public function store(VisitaRequest $request)
     {
-        $entity = Visita::create($request->all());
-        if($entity){
-            return redirect()->route('visitas.index')->with('success', 'Nova visita criada com sucesso!');
-        }
         try{
+            $entity = Visita::create($request->all());
+            if($entity){
+                return redirect()->route('visitas.index')->with('success', 'Nova visita criada com sucesso!');
+            }
         } catch(Exception $e){
             report($e);
             return redirect()->route('visitas.index')->with('error', 'Erro ao criar uma visita!');
@@ -78,7 +78,7 @@ class VisitaController extends Controller
      * @param  \App\Models\Visita  $visita
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Visita $visita)
+    public function update(VisitaRequest $request, Visita $visita)
     {
         try{
             $result = $visita->update($request->all());

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AgendamentoController;
+use App\Http\Controllers\CondutorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoteiroController;
 use App\Http\Controllers\VisitaController;
@@ -32,6 +34,13 @@ Route::middleware('auth')->group(function () {
     /* OBS: As rotas resource tem que está no plural para funcionamento correto */
     Route::resource('roteiros', RoteiroController::class);
     Route::resource('visitas', VisitaController::class);
+    Route::resource('condutores', CondutorController::class)->parameters([
+        'condutores' => 'condutor',
+    ]);
+
+    Route::resource('agendamentos', AgendamentoController::class)->parameters([
+        'agendamentos' => 'agendamento',
+    ]);
 
 });
 
