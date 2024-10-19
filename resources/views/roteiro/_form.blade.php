@@ -18,7 +18,7 @@
 
         <div class="flex items-center">
             <div class="relative mr-4 w-full">
-                <select id="horas" name="horas" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                <select id="horas" name="horas" class="mt-1 py-2.5 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                     <option value="{{$entity->horas ?? ''}}">{{$entity->horas ?? 'Horas'}}</option>
                     @for ($i = 0; $i <= 23; $i++)
                         <option value="{{ $i }}">{{ $i }}</option>
@@ -27,7 +27,7 @@
             </div>
 
             <div class="relative w-full">
-                <select id="minutos" name="minutos" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                <select id="minutos" name="minutos" class="mt-1 py-2.5 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
 
                     <option value="{{$entity->minutos ?? ''}}">{{$entity->minutos ?? 'Minutos'}}</option>
                     @for ($i = 0; $i <= 59; $i++)
@@ -41,7 +41,7 @@
     {{-- Criar um campo select e injetar a enumeração --}}
     <div>
         <x-input-label for="nivel" :value="__('Nível')" />
-        <select id="nivel" name="nivel" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" required>
+        <select id="nivel" name="nivel" class="mt-1 py-2.5 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" required>
             <option value="{{ isset($entity->nivel) ? $entity->nivel->value : ''}}">{{ isset($entity->nivel) ? $entity->nivel->getDescription() : 'Selecione um nível'}}</option>
             @foreach (\App\Models\Enums\Niveis::cases() as $nivel)
                 <option value="{{ $nivel->value }}">{{ $nivel->getDescription() }}</option>

@@ -31,5 +31,6 @@ return [
     'agendamentoNew' => 'Novo agendamento',
     'agendamentoEdit' => 'Editar agendamento',
     'agendamento' => 'Agendamento',
-
+    'roteiroVisita' => 'Vincular roteiros a visita',
+    'condutorVisita' => 'Vincular condutor a visita',
 ];

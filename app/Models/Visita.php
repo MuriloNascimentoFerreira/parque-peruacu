@@ -33,4 +33,14 @@ class Visita extends Model
         'periodo' => Periodo::class,
         'data' => 'date',
     ];
+
+    public function roteiros()
+    {
+        return $this->belongsToMany(Roteiro::class, 'roteiro_visita');
+    }
+
+    public function condutores()
+    {
+        return $this->belongsToMany(Condutor::class, 'condutor_visita');
+    }
 }

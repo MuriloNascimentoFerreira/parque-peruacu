@@ -2,8 +2,11 @@
 
 use App\Http\Controllers\AgendamentoController;
 use App\Http\Controllers\CondutorController;
+use App\Http\Controllers\CondutorVisitaController;
+use App\Http\Controllers\HabilitarCondutorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoteiroController;
+use App\Http\Controllers\RoteiroVisitaController;
 use App\Http\Controllers\VisitaController;
 use Illuminate\Support\Facades\Route;
 
@@ -41,6 +44,16 @@ Route::middleware('auth')->group(function () {
     Route::resource('agendamentos', AgendamentoController::class)->parameters([
         'agendamentos' => 'agendamento',
     ]);
+
+    Route::post('condutores/habilitar-condutores/{condutor}', HabilitarCondutorController::class)->name('condutores.habilitar-condutores');
+
+    Route::get('roteiro-visita/{visita}', [RoteiroVisitaController::class, 'create'])->name('roteiro-visita.create');
+    Route::post('roteiro-visita/{visita}', [RoteiroVisitaController::class, 'store'])->name('roteiro-visita.store');
+    Route::get('roteiro-visita/{visita}/edit', [RoteiroVisitaController::class, 'edit'])->name('roteiro-visita.edit');
+    Route::put('roteiro-visita/{visita}', [RoteiroVisitaController::class, 'update'])->name('roteiro-visita.update');
+
+    Route::get('condutor-visita/{visita}', [CondutorVisitaController::class, 'create'])->name('condutor-visita.create');
+    Route::post('condutor-visita/{visita}', [CondutorVisitaController::class, 'store'])->name('condutor-visita.store');
 
 });
 
