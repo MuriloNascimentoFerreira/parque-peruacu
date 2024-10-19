@@ -44,4 +44,20 @@ class Condutor extends Model
     {
         return $this->belongsTo(Localidade::class);
     }
+
+    public function roteiros()
+    {
+        return $this->belongsToMany(Roteiro::class, 'condutor_roteiro');
+    }
+
+    public function getRoteirosNomes()
+    {
+        return implode(', ', $this->roteiros()->pluck('nome')->toArray());
+    }
+
+    public function visitas()
+    {
+        return $this->belongsToMany(visita::class, 'condutor_roteiro');
+    }
 }
+

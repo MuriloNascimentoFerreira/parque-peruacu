@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CondutorRequest;
 use App\Models\Condutor;
 use App\Models\Localidade;
+use App\Models\Roteiro;
 use App\Services\CondutorService;
 use Exception;
 use Illuminate\Http\Request;
@@ -18,8 +19,9 @@ class CondutorController extends Controller
      */
     public function index()
     {
+        $roteiros = Roteiro::all();
         $entities = Condutor::paginate(10);
-        return view('condutor.index')->with('entities', $entities);
+        return view('condutor.index')->with('entities', $entities)->with('roteiros', $roteiros);
     }
 
     /**

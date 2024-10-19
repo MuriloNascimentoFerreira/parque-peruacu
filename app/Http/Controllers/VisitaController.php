@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\VisitaRequest;
+use App\Models\Roteiro;
 use App\Models\Visita;
 use Exception;
 use Illuminate\Http\Request;
@@ -27,7 +28,8 @@ class VisitaController extends Controller
      */
     public function create()
     {
-        return view('visita.create');
+        $roteiros = Roteiro::all();
+        return view('visita.create')->with('roteiros', $roteiros);
     }
 
     /**
@@ -38,11 +40,21 @@ class VisitaController extends Controller
      */
     public function store(VisitaRequest $request)
     {
+        // Verifica se a quantidade de pessoas para cada condutor ultrapassa 8
+        if($request->quantidadePessoas/$request->quantidadePessoasEfetivo > 8){
+            return redirect()->route('visitas.index')->with('error', 'A quantidade de pessoas devem ser  de 8 pessoas para um condutor');
+        }
+
+        //A soma de pessoas de todas a visitas para essa data, não pode ser maior ou igual a quantidade de pessoas dessa visita.
+        //Visita com agendamento com status confirmado.
+        $quantidadePessoasTotais = Visita::where('data', $request->data)->sum('quantidadePessoas');
+
+        dd($quantidadePessoasTotais);
+        $entity = Visita::create($request->all());
+        if($entity){
+            return redirect()->route('roteiro-visita.create', ['visita' => $entity->id]);
+        }
         try{
-            $entity = Visita::create($request->all());
-            if($entity){
-                return redirect()->route('visitas.index')->with('success', 'Nova visita criada com sucesso!');
-            }
         } catch(Exception $e){
             report($e);
             return redirect()->route('visitas.index')->with('error', 'Erro ao criar uma visita!');
@@ -83,7 +95,7 @@ class VisitaController extends Controller
         try{
             $result = $visita->update($request->all());
             if($result){
-                return redirect()->route('visitas.index')->with('success', 'Visita editada com sucesso!');
+            return redirect()->route('roteiro-visita.edit', ['visita' => $visita->id]);
             }
         } catch(Exception $e){
             report($e);

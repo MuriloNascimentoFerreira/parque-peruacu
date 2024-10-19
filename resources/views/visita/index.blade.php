@@ -18,7 +18,7 @@
                                         <th scope="col" class="px-3 py-3">#</th>
                                         <th scope="col" class="px-3 py-3">Data</th>
                                         <th scope="col" class="px-3 py-3">Quantidade pessoas</th>
-                                        <th scope="col" class="px-3 py-3">Quantidade pessoas efetivo</th>
+                                        <th scope="col" class="px-3 py-3">Quantidade condutores</th>
                                         <th scope="col" class="px-3 py-3">Período</th>
                                         <th scope="col" class="px-1 py-1">Ações</th>
 

@@ -18,7 +18,7 @@
     {{-- Criar um campo select e injetar a enumeração --}}
     <div class="mb-4 col-span-2">
         <x-input-label for="situacao" :value="__('Situação')" />
-        <select id="situacao" name="situacao" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" required>
+        <select id="situacao" name="situacao" class="mt-1 py-2.5 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" required>
             @if (isset($entity->situacao))
             <option value="{{$entity->situacao->value}}">
                 {{ $entity->situacao->getDescription() }}

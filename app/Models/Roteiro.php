@@ -47,4 +47,14 @@ class Roteiro extends Model
     {
         return number_format($this->attributes['distancia'], 2, ',', '');
     }
+
+    public function condutores()
+    {
+        return $this->belongsToMany(Condutor::class, 'condutor_roteiro');
+    }
+
+    public function visitas()
+    {
+        return $this->belongsToMany(Visita::class, 'roteiro_visita');
+    }
 }
