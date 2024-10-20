@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-views-header title="{{ __('messages.agendamentos') }}" route="agendamentos.create" />
+        <x-views-header title="{{ __('messages.agendamentos') }}" />
     </x-slot>
 
     <div class="py-6">

@@ -5,7 +5,6 @@ namespace App\Http\Requests;
 use App\Models\Enums\Profile;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Enum;
 
 class AgendamentoRequest extends FormRequest
 {
@@ -39,7 +38,6 @@ class AgendamentoRequest extends FormRequest
     public function rules()
     {
 
-        /* bug na data */
         return [
             'data' => ['required', 'date','date_format:Y-m-d'],
             'nomeResponsavel' => ['required','max:255','string'],
@@ -51,7 +49,8 @@ class AgendamentoRequest extends FormRequest
             'uf' => ['required','max:2','string'],
             'pais' => ['required','max:255','string'],
             'descricao' => ['max:255'],
-            'numero' => ['required','max:15', 'string']
+            'numero' => ['required','max:15', 'string'],
+            'visita' => ['nullable']
         ];
     }
     public function messages()

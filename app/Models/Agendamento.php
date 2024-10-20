@@ -45,4 +45,10 @@ class Agendamento extends Model
     {
         return $this->hasMany(Telefone::class);
     }
+
+    // cria relacionamento de um para um com visita
+    public function visita()
+    {
+        return $this->hasOne(Visita::class);
+    }
 }

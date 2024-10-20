@@ -45,11 +45,6 @@ class VisitaController extends Controller
             return redirect()->route('visitas.index')->with('error', 'A quantidade de pessoas devem ser  de 8 pessoas para um condutor');
         }
 
-        //A soma de pessoas de todas a visitas para essa data, não pode ser maior ou igual a quantidade de pessoas dessa visita.
-        //Visita com agendamento com status confirmado.
-        $quantidadePessoasTotais = Visita::where('data', $request->data)->sum('quantidadePessoas');
-
-        dd($quantidadePessoasTotais);
         $entity = Visita::create($request->all());
         if($entity){
             return redirect()->route('roteiro-visita.create', ['visita' => $entity->id]);

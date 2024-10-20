@@ -14,7 +14,7 @@ class ViewsHeader extends Component
      *
      * @return void
      */
-    public function __construct($title, $route)
+    public function __construct($title, $route = null)
     {
         $this->title = $title;
         $this->route = $route;

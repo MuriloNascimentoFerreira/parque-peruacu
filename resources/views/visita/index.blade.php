@@ -20,7 +20,7 @@
                                         <th scope="col" class="px-3 py-3">Quantidade pessoas</th>
                                         <th scope="col" class="px-3 py-3">Quantidade condutores</th>
                                         <th scope="col" class="px-3 py-3">Período</th>
-                                        <th scope="col" class="px-1 py-1">Ações</th>
+                                        <th scope="col" class="px-1 py-1 text-center">Ações</th>
 
                                     </tr>
                                 </thead>
@@ -33,6 +33,13 @@
                                             <td class="px-6 py-4">{{$entity->quantidadePessoasEfetivo}}</td>
                                             <td class="px-6 py-4">{{$entity->periodo->getDescription()}}</td>
                                             <td class="px-2 py-1">
+
+                                                @if (empty($entity->agendamento))
+                                                    <a href="{{ route('agendamentos.create',  $entity) }}" class="text-black bg-yellow-400 hover:bg-yellow hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-2">
+                                                        Criar
+                                                        Agendamento
+                                                    </a>
+                                                @endif
 
                                                 <x-button-edit route="visitas.edit" :entity="$entity"/>
 

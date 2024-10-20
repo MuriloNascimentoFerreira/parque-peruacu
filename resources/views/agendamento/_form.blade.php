@@ -11,8 +11,8 @@
                 </svg>
             </div>
             <input datepickerselect name="data" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Selecione a data" autocomplete="off" value="{{isset($entity->data) ? $entity->data->format('d/m/Y') :  old('data')}}">
-            <x-input-error :messages="$errors->get('data')" class="mt-1" />
         </div>
+        <x-input-error :messages="$errors->get('data')" />
     </div>
 
     {{-- Criar um campo select e injetar a enumeração --}}
@@ -100,6 +100,7 @@
     </div>
 </div>
 
+<input type="hidden" name="visita" value="{{isset($visita->id) ? $visita->id : $entity->visita->id}}">
 <div class="flex items-center justify-end mt-4">
     <x-primary-button class="ml-3">
         {{ __('Salvar') }}
