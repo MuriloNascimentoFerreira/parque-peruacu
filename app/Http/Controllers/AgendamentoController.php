@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AgendamentoRequest;
 use App\Models\Agendamento;
+use App\Models\Visita;
 use App\Services\AgendamentoService;
 use Exception;
 use Illuminate\Http\Request;
@@ -26,9 +27,9 @@ class AgendamentoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Visita $visita = null)
     {
-        return view('agendamento.create');
+        return view('agendamento.create')->with('visita', $visita);
     }
 
     /**
@@ -41,8 +42,12 @@ class AgendamentoController extends Controller
     {
         try{
             $entity = $service->create($request->all());
+            $visita = Visita::find($request->visita);
 
             if($entity){
+                // associa um agendamento a visita
+                $visita->agendamento()->associate($entity);
+                $visita->save();
                 return redirect()->route('agendamentos.index')->with('success', 'Novo agendamento criado com sucesso!');
             }
         } catch(Exception $e){

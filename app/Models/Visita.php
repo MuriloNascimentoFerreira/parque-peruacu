@@ -43,4 +43,9 @@ class Visita extends Model
     {
         return $this->belongsToMany(Condutor::class, 'condutor_visita');
     }
+
+    public function agendamento()
+    {
+        return $this->belongsTo(Agendamento::class);
+    }
 }
