@@ -43,4 +43,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'profile' => 'integer',
     ];
+
+    public function visitas()
+    {
+        return $this->hasMany(Visita::class);
+    }
 }

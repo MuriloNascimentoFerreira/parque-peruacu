@@ -22,6 +22,7 @@ class Visita extends Model
         'quantidadePessoas',
         'quantidadePessoasEfetivo',
         'periodo',
+        'user_id',
     ];
 
      /**
@@ -47,5 +48,10 @@ class Visita extends Model
     public function agendamento()
     {
         return $this->belongsTo(Agendamento::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
