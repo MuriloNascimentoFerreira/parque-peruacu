@@ -39,11 +39,13 @@
                                                         Criar
                                                         Agendamento
                                                     </a>
+
                                                 @endif
 
-                                                <x-button-edit route="visitas.edit" :entity="$entity"/>
-
-                                                <x-button-remove route="visitas.destroy" :entity="$entity"/>
+                                                <div class="text-right">
+                                                    <x-button-edit route="visitas.edit" :entity="$entity"/>
+                                                    <x-button-remove route="visitas.destroy" :entity="$entity"/>
+                                                </div>
 
                                             </td>
 

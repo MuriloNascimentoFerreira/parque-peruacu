@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AgendamentoController;
+use App\Http\Controllers\AgendamentoConvidadoController;
+use App\Http\Controllers\CalendarioController;
 use App\Http\Controllers\CondutorController;
 use App\Http\Controllers\CondutorVisitaController;
 use App\Http\Controllers\HabilitarCondutorController;
@@ -8,6 +10,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoteiroController;
 use App\Http\Controllers\RoteiroVisitaController;
 use App\Http\Controllers\VisitaController;
+use App\Http\Controllers\VisitaConvidadoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,7 +32,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth', 'verified')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -48,8 +51,6 @@ Route::middleware('auth')->group(function () {
     Route::put('/agendamentos/{agendamento}', [AgendamentoController::class, 'update'])->name('agendamentos.update');
     Route::delete('/agendamentos/{agendamento}', [AgendamentoController::class, 'destroy'])->name('agendamentos.destroy');
 
-
-
     Route::post('condutores/habilitar-condutores/{condutor}', HabilitarCondutorController::class)->name('condutores.habilitar-condutores');
 
     Route::get('roteiro-visita/{visita}', [RoteiroVisitaController::class, 'create'])->name('roteiro-visita.create');
@@ -60,6 +61,20 @@ Route::middleware('auth')->group(function () {
     Route::get('condutor-visita/{visita}', [CondutorVisitaController::class, 'create'])->name('condutor-visita.create');
     Route::post('condutor-visita/{visita}', [CondutorVisitaController::class, 'store'])->name('condutor-visita.store');
 
+    Route::get('visitas-convidado/index', [VisitaConvidadoController::class, 'index'])->name('visita-convidado.index');
+
+    Route::get('visitas-convidado/visita/{data?}', [VisitaConvidadoController::class, 'create'])->name('visita-convidado.create');
+
+    // Route::post('visitas-convidado/visita', [VisitaConvidadoController::class, 'storeVisita'])->name('visita-convidado.store');
+
 });
+
+
+// Retorna página do calendário com os roteiros disponiveis para o visitante.
+Route::get('visitas-convidado/', [VisitaConvidadoController::class, 'calendario'])->name('visitas-convidado.calendario');
+
+//Rota responsavel por retornar os roteiros e as vagas disponiveis para cada roteiro via ajax
+Route::get('/calendario', [CalendarioController::class, 'calendario'])->name('calendario');
+
 
 require __DIR__.'/auth.php';

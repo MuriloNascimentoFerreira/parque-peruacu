@@ -16,17 +16,22 @@ class CondutorVisitaController extends Controller
     use GetCondutoresHabilitados, VerificaDisponibilidadeVisita;
     public function create(Visita $visita)
     {
-        $visita->roteiros();
-
-        // Verificar quais condutores são habilitados para esses roteiros
         //O condutor é listado quando é habilitado para no minimo um dos roteiros
         $condutores = $this->getCondutoresHabilitados($visita->roteiros);
 
         return view('condutorVisita.create', compact('condutores', 'visita'));
     }
 
+    /**
+     * @todo criar um service.
+     *
+     * @param CondutorVisitaRequest $request
+     * @param Visita $visita
+     * @return void
+     */
     public function store(CondutorVisitaRequest $request, Visita $visita)
     {
+        //quando selecionar apenas um condutor verificar se ele está habilitado para todos os roteiros
         $condutores = Condutor::whereIn('id', $request->condutores)->get();
 
         $condutoresRequest = $request->input('condutores'); // array de IDs de condutores recebido pela request
@@ -38,9 +43,27 @@ class CondutorVisitaController extends Controller
 
         $visita->condutores()->sync($condutores->pluck('id')->toArray());
 
-        // $this->verificaDisponibilidadeVisita($visita);
+        // verificar se todos os roteiros possuem um condutor habilitado
+        foreach ($visita->roteiros as $roteiro) {
 
-        return redirect()->route('visitas.index')->with('success', 'Visita criada com sucesso!');
+            if (empty($roteiro->condutores()->get()->count()) ||
+                !$roteiro->condutores()->get()->contains('id', $visita->condutores()->get()->first()->id)
+            ){
+
+                return redirect()->back()->with('error', 'É obrigatório ao menos um condutor habilitado para todos os roteiros selecionados!');
+            }
+        }
+
+        if($this->verificaDisponibilidadeVisita($visita)){
+
+            return redirect()->route('visitas.index')->with('success', 'Visita criada com sucesso!');
+        }
+
+        /**
+         * @todo Rodar uma comando para apagar tudo que já tinha sido criado.
+         */
+
+        return redirect()->route('visitas.index')->with('error', 'Vagas indisponíveis para essa data.');
     }
 
     // public function edit(Visita $visita)

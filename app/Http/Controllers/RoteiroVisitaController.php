@@ -6,6 +6,7 @@ use App\Http\Requests\RoteiroVisitaRequest;
 use App\Models\Condutor;
 use App\Models\Roteiro;
 use App\Models\Visita;
+use App\Repositories\RoteiroRepository;
 
 /**
  * Classe responsável por vincular roteiros a uma visita
@@ -13,9 +14,12 @@ use App\Models\Visita;
 class RoteiroVisitaController extends Controller
 {
 
-    public function create(Visita $visita)
+    public function create(Visita $visita, RoteiroRepository $roteiroRepository)
     {
-        $roteiros = Roteiro::all();
+        $roteiros = $roteiroRepository->findAllDate($visita);
+
+        // Listar apenas os roteiros disponiveis.
+        // Ou seja, verificar os roteiros que tem vagas disponiveis para esse dia, para o número de pessoas solicitado
         return view('roteiroVisita.create', compact('roteiros', 'visita'));
     }
 

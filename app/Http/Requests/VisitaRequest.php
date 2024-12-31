@@ -17,7 +17,8 @@ class VisitaRequest extends FormRequest
      */
     public function authorize()
     {
-        if($this->user()->profile === Profile::USER_ADMINISTRADOR){
+        if($this->user()->profile === Profile::USER_ADMINISTRADOR ||
+            $this->user()->profile === Profile::USER_VISITANTE){
             return true;
         }
         return false;
