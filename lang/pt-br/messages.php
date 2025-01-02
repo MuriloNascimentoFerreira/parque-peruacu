@@ -33,8 +33,8 @@ return [
     'agendamentoNew' => 'Novo agendamento',
     'agendamentoEdit' => 'Editar agendamento',
     'agendamento' => 'Agendamento',
-    'roteiroVisita' => 'Vincular roteiros a visita',
-    'condutorVisita' => 'Vincular condutor a visita',
+    'roteiroVisita' => 'Adicione os roteiros a sua visita',
+    'condutorVisita' => 'Adicione os condutores a sua visita',
     'verification' => [
         'subject' => 'Verifique seu email',
         'body' => 'Clique no link abaixo para verificar seu email.',

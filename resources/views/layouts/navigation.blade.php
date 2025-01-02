@@ -30,7 +30,7 @@
                 @can('visitante')
                     <!-- Navigation Links -->
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-nav-link :href="route('visita-convidado.index')" :active="request()->routeIs('visita-convidado.index')">
+                        <x-nav-link :href="route('visitas.index')" :active="request()->routeIs('visitas.index')">
                             {{ __('messages.visitas') }}
                         </x-nav-link>
                     </div>

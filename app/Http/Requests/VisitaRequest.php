@@ -26,6 +26,11 @@ class VisitaRequest extends FormRequest
 
     public function prepareForValidation()
     {
+        //add user_id
+        $this->merge([
+            'user_id' => auth()->user()->id
+        ]);
+
         if(isset($this->data)){
             $this->merge([
                 'data' => Carbon::createFromFormat('d/m/Y', $this->data)->format('Y-m-d')

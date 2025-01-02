@@ -37,6 +37,30 @@ class RoteiroRepository
 
     }
 
+    /**
+     * Igual a de cima mas para edição
+     *
+     * @param [type] $visita
+     * @return void
+     */
+    public function findAllDateEdit($visita)
+    {
+        return Roteiro::query()
+            ->leftJoin('roteiro_visita', 'roteiros.id', '=', 'roteiro_visita.roteiro_id')
+            ->leftJoin('visitas', function ($join) use ($visita) {
+                $join->on('visitas.id', '=', 'roteiro_visita.visita_id')
+                    ->where('visitas.data', $visita->data);
+            })
+            ->select('roteiros.id',
+                'roteiros.lotacao',
+                'roteiros.nome',
+                DB::raw('COALESCE( SUM(CASE WHEN visitas.id <> ' . $visita->id . ' THEN visitas.quantidadePessoas ELSE 0 END), 0) as total_visitas'),
+                DB::raw('(roteiros.lotacao - COALESCE( SUM(CASE WHEN visitas.id <> ' . $visita->id . ' THEN visitas.quantidadePessoas ELSE 0 END), 0)) as vagas_disponiveis'))
+            ->groupBy('roteiros.id')
+            ->get();
+
+    }
+
     public function findAllCalendar()
     {
         // Define o ano que você deseja

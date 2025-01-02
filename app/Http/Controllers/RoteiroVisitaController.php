@@ -39,9 +39,9 @@ class RoteiroVisitaController extends Controller
         return redirect()->route('condutor-visita.create', ['visita' => $visita->id]);
     }
 
-    public function edit(Visita $visita)
+    public function edit(Visita $visita, RoteiroRepository $roteiroRepository)
     {
-        $roteiros = Roteiro::all();
+        $roteiros = $roteiroRepository->findAllDateEdit($visita);
         return view('roteiroVisita.edit', compact('roteiros', 'visita'));
     }
 
@@ -58,6 +58,6 @@ class RoteiroVisitaController extends Controller
 
         $visita->roteiros()->sync($roteiros->pluck('id')->toArray());
 
-        return redirect()->route('condutor-visita.create', ['visita' => $visita->id]);
+        return redirect()->route('condutor-visita.edit', ['visita' => $visita->id]);
     }
 }

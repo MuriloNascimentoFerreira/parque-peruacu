@@ -60,12 +60,8 @@ Route::middleware('auth', 'verified')->group(function () {
 
     Route::get('condutor-visita/{visita}', [CondutorVisitaController::class, 'create'])->name('condutor-visita.create');
     Route::post('condutor-visita/{visita}', [CondutorVisitaController::class, 'store'])->name('condutor-visita.store');
-
-    Route::get('visitas-convidado/index', [VisitaConvidadoController::class, 'index'])->name('visita-convidado.index');
-
-    Route::get('visitas-convidado/visita/{data?}', [VisitaConvidadoController::class, 'create'])->name('visita-convidado.create');
-
-    // Route::post('visitas-convidado/visita', [VisitaConvidadoController::class, 'storeVisita'])->name('visita-convidado.store');
+    Route::get('condutor-visita/{visita}/edit', [CondutorVisitaController::class, 'edit'])->name('condutor-visita.edit');
+    Route::put('condutor-visita/{visita}', [CondutorVisitaController::class, 'update'])->name('condutor-visita.update');
 
 });
 

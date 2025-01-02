@@ -93,11 +93,7 @@ $(function () {
             novo: {
                 text: 'Agendar visita',
                 click: function() {
-
-                    window.location.href = BASEURL + 'visitas-convidado/visita/';
-                    //rever toda lógica de login e cadastro tanto de visitante como de funcionário. Permite cadastrar e logar apenas que confirmou email;
-
-                    // Pensar na possibilidade de excluir emails que não foram confirmados de tempos em tempos;
+                    window.location.href = BASEURL + 'visitas/create';
                 }
             },
         },

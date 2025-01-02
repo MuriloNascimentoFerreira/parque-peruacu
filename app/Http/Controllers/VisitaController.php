@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\VisitaRequest;
+use App\Models\Enums\Profile;
 use App\Models\Roteiro;
 use App\Models\Visita;
 use Exception;
@@ -17,6 +18,11 @@ class VisitaController extends Controller
      */
     public function index()
     {
+        if(auth()->user()->profile === Profile::USER_VISITANTE){
+            $entities = Visita::query()->where('user_id', auth()->user()->id)->paginate(10);
+            $entities = Visita::paginate(10);
+            return view('visita.index')->with('entities', $entities);
+        }
         $entities = Visita::paginate(10);
         return view('visita.index')->with('entities', $entities);
     }
@@ -45,11 +51,16 @@ class VisitaController extends Controller
             return redirect()->route('visitas.index')->with('error', 'A quantidade de pessoas devem ser  de 8 pessoas para um condutor');
         }
 
-        $entity = Visita::create($request->all());
-        if($entity){
-            return redirect()->route('roteiro-visita.create', ['visita' => $entity->id]);
+        // Para não adicionar mais de uma visita para o mesmo dia de uma mesma pessoa
+        if(auth()->user()->id === Visita::query()->where('data', $request->data)->first()->user->id){
+            return redirect()->route('visitas.index')->with('error', 'Já existe uma visita sua para esta data. Clique para alterá-la!');
         }
+
         try{
+            $entity = Visita::create($request->all());
+            if($entity){
+                return redirect()->route('roteiro-visita.create', ['visita' => $entity->id]);
+            }
         } catch(Exception $e){
             report($e);
             return redirect()->route('visitas.index')->with('error', 'Erro ao criar uma visita!');
