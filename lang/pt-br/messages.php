@@ -30,7 +30,7 @@ return [
     'condutorEdit' => 'Editar condutor',
     'condutor' => 'Condutor',
     'agendamentos' => 'Agendamentos',
-    'agendamentoNew' => 'Novo agendamento',
+    'agendamentoNew' => 'Concluir agendamento',
     'agendamentoEdit' => 'Editar agendamento',
     'agendamento' => 'Agendamento',
     'roteiroVisita' => 'Adicione os roteiros a sua visita',

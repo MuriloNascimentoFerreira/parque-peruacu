@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('agendamentos', function (Blueprint $table) {
             $table->id();
-            $table->date('data');
             $table->string('nomeResponsavel');
             $table->string('email');
             $table->text('motivo');

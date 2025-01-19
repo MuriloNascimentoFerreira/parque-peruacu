@@ -18,7 +18,6 @@ class Agendamento extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'data',
         'nomeResponsavel',
         'email',
         'motivo',
@@ -49,6 +48,6 @@ class Agendamento extends Model
     // cria relacionamento de um para um com visita
     public function visita()
     {
-        return $this->hasOne(Visita::class);
+        return $this->hasOne(Visita::class, 'agendamento_id');
     }
 }

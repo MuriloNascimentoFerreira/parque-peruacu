@@ -67,13 +67,11 @@ class CondutorVisitaController extends Controller
                 return redirect()->back()->with('error', 'É obrigatório ao menos um condutor habilitado para todos os roteiros selecionados!');
             }
 
-            //Redirecionar para a tela de cadastro de agendamento.
-
-            // Só por enquanto
-            return redirect()->route('visitas.index')->with('success', 'Visita criada com sucesso!');
+            return redirect()->route('agendamentos.create', [$visita])
+                ->with('info', 'Último passo para concluir seu agendamento!');
 
         } catch(Exception $e){
-            report($e);
+            report($e->getMessage());
             return redirect()->route('visitas.index')->with('error', 'Erro ao vincular condutores!');
         }
     }

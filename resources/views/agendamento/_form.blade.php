@@ -2,7 +2,28 @@
 {{-- colocar em duas colunas --}}
 <div class="grid grid-cols-8 gap-2">
 
+    <div class="mb-4 col-span-3">
+        <x-input-label for="nomeResponsavel" :value="__('Nome do responsável')" />
+        <x-text-input  id="nomeResponsavel" name="nomeResponsavel" type="text" class="mt-1 block w-full" :value="$entity->nomeResponsavel ?? old('nomeResponsavel')"/>
+
+        <x-input-error :messages="$errors->get('nomeResponsavel')" class="mt-1" />
+    </div>
     <div class="mb-4 col-span-2">
+        <x-input-label for="email" :value="__('E-mail')" />
+        <x-text-input  id="email" name="email" type="email" class="mt-1 block w-full" :value="$entity->email ?? old('email')"/>
+
+        <x-input-error :messages="$errors->get('email')" class="mt-1" />
+    </div>
+    <div class="mb-4 col-span-3">
+        <x-input-label for="motivo" :value="__('Motivo da visita')" />
+        <x-text-input  id="motivo" name="motivo" type="text" class="mt-1 block w-full" :value="$entity->motivo ?? old('motivo')"/>
+            <x-input-error :messages="$errors->get('motivo')" class="mt-1" />
+    </div>
+</div>
+
+<div class="grid grid-cols-8 gap-2">
+
+    {{-- <div class="mb-4 col-span-2">
         <div class="relative mb-4">
             <x-input-label for="data" :value="__('Data do agendamento')" />
             <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none mt-4">
@@ -13,10 +34,10 @@
             <input datepickerselect name="data" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Selecione a data" autocomplete="off" value="{{isset($entity->data) ? $entity->data->format('d/m/Y') :  old('data')}}">
         </div>
         <x-input-error :messages="$errors->get('data')" />
-    </div>
+    </div> --}}
 
     {{-- Criar um campo select e injetar a enumeração --}}
-    <div class="mb-4 col-span-2">
+    {{-- <div class="mb-4 col-span-2">
         <x-input-label for="situacao" :value="__('Situação')" />
         <select id="situacao" name="situacao" class="mt-1 py-2.5 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" required>
             @if (isset($entity->situacao))
@@ -30,32 +51,10 @@
             <option value="{{ $situacao->value }}">{{ $situacao->getDescription() }}</option>
             @endforeach
         </select>
-    </div>
-
-    <div class="mb-4 col-span-4">
-        <x-input-label for="motivo" :value="__('Motivo')" />
-        <x-text-input  id="motivo" name="motivo" type="text" class="mt-1 block w-full" :value="$entity->motivo ?? old('motivo')"/>
-            <x-input-error :messages="$errors->get('motivo')" class="mt-1" />
-    </div>
+    </div> --}}
 </div>
 
-<div class="grid grid-cols-3 gap-2">
-
-    <div class="mb-4 col-span-2">
-        <x-input-label for="nomeResponsavel" :value="__('Nome do responsável')" />
-        <x-text-input  id="nomeResponsavel" name="nomeResponsavel" type="text" class="mt-1 block w-full" :value="$entity->nomeResponsavel ?? old('nomeResponsavel')"/>
-
-        <x-input-error :messages="$errors->get('nomeResponsavel')" class="mt-1" />
-    </div>
-    <div class="mb-4 col-span-1">
-        <x-input-label for="email" :value="__('E-mail')" />
-        <x-text-input  id="email" name="email" type="email" class="mt-1 block w-full" :value="$entity->email ?? old('email')"/>
-
-        <x-input-error :messages="$errors->get('email')" class="mt-1" />
-    </div>
-</div>
-
-<h2>Localidade do responsável</h2>
+<h2 class="text-center">Localidade do responsável</h2>
 <div class="grid grid-cols-10 gap-2">
 
     <div class="mb-4 col-span-3">
@@ -100,9 +99,10 @@
     </div>
 </div>
 
-<input type="hidden" name="visita" value="{{isset($visita->id) ? $visita->id : $entity->visita->id}}">
+<input type="hidden" name="visita" value="{{isset($entity) ? $entity->visita->id : $visita->id}}">
+
 <div class="flex items-center justify-end mt-4">
     <x-primary-button class="ml-3">
-        {{ __('Salvar') }}
+        {{ __('Confirmar agendamento') }}
     </x-primary-button>
 </div>

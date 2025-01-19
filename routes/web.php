@@ -45,7 +45,7 @@ Route::middleware('auth', 'verified')->group(function () {
     ]);
 
     Route::get('/agendamentos', [AgendamentoController::class, 'index'])->name('agendamentos.index');
-    Route::get('/agendamentos/create/{visita?}', [AgendamentoController::class, 'create'])->name('agendamentos.create');
+    Route::get('/agendamentos/create/{visita}', [AgendamentoController::class, 'create'])->name('agendamentos.create');
     Route::post('/agendamentos', [AgendamentoController::class, 'store'])->name('agendamentos.store');
     Route::get('/agendamentos/{agendamento}/edit', [AgendamentoController::class, 'edit'])->name('agendamentos.edit');
     Route::put('/agendamentos/{agendamento}', [AgendamentoController::class, 'update'])->name('agendamentos.update');

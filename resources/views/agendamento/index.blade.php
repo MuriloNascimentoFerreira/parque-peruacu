@@ -36,7 +36,7 @@
                                                     {{ $entity->id }}
                                             </button>
                                             </td>
-                                            <td class="px-6 py-4">{{ $entity->data->format('d/m/Y') }}</td>
+                                            <td class="px-6 py-4">{{ $entity->visita->data->format('d/m/Y') }}</td>
                                             <td class="px-6 py-4">{{ $entity->nomeResponsavel }}</td>
                                             <td class="px-6 py-4">{{ $entity->email }}</td>
                                             <td class="px-6 py-4">{{ $entity->motivo }}</td>

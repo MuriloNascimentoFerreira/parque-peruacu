@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AgendamentoRequest;
 use App\Models\Agendamento;
+use App\Models\Enums\Profile;
 use App\Models\Visita;
 use App\Services\AgendamentoService;
 use Exception;
@@ -18,6 +19,12 @@ class AgendamentoController extends Controller
      */
     public function index()
     {
+        if(auth()->user()->profile === Profile::USER_VISITANTE){
+            $entities = Agendamento::whereHas('visita', function ($query) {
+                $query->where('user_id', auth()->user()->id);
+            })->paginate(10);
+            return view('agendamento.index')->with('entities', $entities);
+        }
         $entities = Agendamento::paginate(10);
         return view('agendamento.index')->with('entities', $entities);
     }
@@ -27,7 +34,7 @@ class AgendamentoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Visita $visita = null)
+    public function create(Visita $visita)
     {
         return view('agendamento.create')->with('visita', $visita);
     }
@@ -48,7 +55,7 @@ class AgendamentoController extends Controller
                 // associa um agendamento a visita
                 $visita->agendamento()->associate($entity);
                 $visita->save();
-                return redirect()->route('agendamentos.index')->with('success', 'Novo agendamento criado com sucesso!');
+                return redirect()->route('agendamentos.index')->with('success', 'Sua solicitação de visita foi enviada com sucesso! <br> Aguarde aprovação que será enviada por e-mail.');
             }
         } catch(Exception $e){
             report($e);

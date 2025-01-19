@@ -23,7 +23,7 @@
             <!-- Modal body -->
             <div class="p-4 md:p-5 space-y-2">
                 <div class="text-center">Informações do agendamento</div>
-                <div><strong>Data:</strong> {{$entity->data->format('d/m/Y')}}</div>
+                <div><strong>Data:</strong> {{$entity->visita->data->format('d/m/Y')}}</div>
                 <div><strong>Situação:</strong> {{$entity->situacao->getDescription()}}</div>
                 <div><strong>Motivo:</strong> {{$entity->motivo}}</div>
                 <div class="text-center">Responsável pelo agendamento</div>

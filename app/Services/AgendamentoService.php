@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Agendamento;
+use App\Models\Enums\Situacao;
 use App\Models\Localidade;
 use App\Models\Telefone;
 
@@ -11,6 +12,7 @@ class AgendamentoService{
     public function create($data){
 
         $agendamento = new Agendamento();
+        $agendamento->situacao = Situacao::SITUACAO_PENDENTE;
         $agendamento->fill($data);
 
         $localidade = new Localidade();
