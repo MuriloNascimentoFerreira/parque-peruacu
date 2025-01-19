@@ -44,5 +44,7 @@ return [
 
     //Verificação de email
     'verifyYourEmailMsg' => "Obrigado por se inscrever! Antes de começar, você poderia verificar seu endereço de email clicando no link que acabamos de enviar para você? Se você não recebeu o email, ficaremos felizes em enviar outro.",
-    'newVerificationLinkSent' => "Um novo link de verificação foi enviado para o endereço de email que você forneceu durante o registro."
+    'newVerificationLinkSent' => "Um novo link de verificação foi enviado para o endereço de email que você forneceu durante o registro.",
+    'forgotPasswordText' => "Esqueceu a senha? Sem problema. Basta informar seu endereço de email e vamos enviar um link de redefinição de senha para que você possa escolher uma nova.",
+    "sendPasswordResetLink" => "Enviar link de redefinição",
 ];

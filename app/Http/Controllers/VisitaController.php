@@ -6,13 +6,13 @@ use App\Http\Requests\VisitaRequest;
 use App\Models\Enums\Profile;
 use App\Models\Roteiro;
 use App\Models\Visita;
-use App\Traits\VerificaDisponibilidadeVisita;
+use App\Traits\VerificaDisponibilidade;
 use Exception;
 use Illuminate\Http\Request;
 
 class VisitaController extends Controller
 {
-    use VerificaDisponibilidadeVisita;
+    use VerificaDisponibilidade;
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +22,6 @@ class VisitaController extends Controller
     {
         if(auth()->user()->profile === Profile::USER_VISITANTE){
             $entities = Visita::query()->where('user_id', auth()->user()->id)->paginate(10);
-            $entities = Visita::paginate(10);
             return view('visita.index')->with('entities', $entities);
         }
         $entities = Visita::paginate(10);
@@ -104,6 +103,10 @@ class VisitaController extends Controller
     public function update(VisitaRequest $request, Visita $visita)
     {
         try{
+            if(!$this->verificaDisponibilidadeVisita($request->all())){
+                return redirect()->route('visitas.index')->with('error', 'Quantidade de vagas disponíveis para essa data é insuficiente! Volte ao calendário para verificar as vagas disponíveis!');
+            }
+
             $result = $visita->update($request->all());
             if($result){
             return redirect()->route('roteiro-visita.edit', ['visita' => $visita->id]);
@@ -123,6 +126,8 @@ class VisitaController extends Controller
     public function destroy(Visita $visita)
     {
         try{
+            $visita->roteiros()->detach();
+            $visita->condutores()->detach();
             $result = $visita->delete();
             if($result){
                 return redirect()->route('visitas.index')->with('success', 'Visita excluída com sucesso!');

@@ -34,7 +34,6 @@ class RoteiroRepository
                 DB::raw('(roteiros.lotacao - COALESCE( SUM(visitas.quantidadePessoas),0)) as vagas_disponiveis'))
             ->groupBy('roteiros.id')
             ->get();
-
     }
 
     /**
@@ -58,7 +57,6 @@ class RoteiroRepository
                 DB::raw('(roteiros.lotacao - COALESCE( SUM(CASE WHEN visitas.id <> ' . $visita->id . ' THEN visitas.quantidadePessoas ELSE 0 END), 0)) as vagas_disponiveis'))
             ->groupBy('roteiros.id')
             ->get();
-
     }
 
     public function findAllCalendar()
@@ -115,7 +113,6 @@ class RoteiroRepository
         }
 
         return $resultados;
-
     }
 }
 

@@ -12,6 +12,8 @@ class Visita extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $cascadeDeletes = ['roteiros', 'condutores'];
+
     /**
      * The attributes that are mass assignable.
      *

@@ -6,6 +6,7 @@ use App\Http\Requests\RoteiroVisitaRequest;
 use App\Models\Roteiro;
 use App\Models\Visita;
 use App\Repositories\RoteiroRepository;
+use App\Traits\VerificaDisponibilidade;
 use Exception;
 
 /**
@@ -13,7 +14,7 @@ use Exception;
  */
 class RoteiroVisitaController extends Controller
 {
-
+    use VerificaDisponibilidade;
     public function create(Visita $visita, RoteiroRepository $roteiroRepository)
     {
         $roteiros = $roteiroRepository->findAllDate($visita);
@@ -26,6 +27,10 @@ class RoteiroVisitaController extends Controller
     public function store(RoteiroVisitaRequest $request, Visita $visita)
     {
         try{
+            if(!$this->verificaDisponibilidadeRoteiros($visita, $request->roteiros)){
+                return redirect()->back()->with('error', 'Quantidade de vagas disponíveis para essa data é insuficiente! Volte ao calendário para verificar as vagas disponíveis!');
+            }
+
             $roteiros = Roteiro::whereIn('id', $request->roteiros)->get();
 
             // vincula os roteiros que precisam ser vinculados
@@ -46,6 +51,10 @@ class RoteiroVisitaController extends Controller
 
     public function update(RoteiroVisitaRequest $request, Visita $visita)
     {
+
+        if(!$this->verificaDisponibilidadeRoteiros($visita, $request->roteiros)){
+            return redirect()->back()->with('error', 'Quantidade de vagas disponíveis para essa data é insuficiente! Volte ao calendário para verificar as vagas disponíveis!');
+        }
         try{
             $roteiros = Roteiro::whereIn('id', $request->roteiros)->get();
 

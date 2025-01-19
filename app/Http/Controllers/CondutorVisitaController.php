@@ -31,21 +31,34 @@ class CondutorVisitaController extends Controller
      */
     public function store(CondutorVisitaRequest $request, Visita $visita)
     {
-        // dd($condutores = Condutor::whereIn('id', $request->condutores)->get());
         try{
             $condutores = Condutor::whereIn('id', $request->condutores)->get();
+            if($visita->quantidadePessoasEfetivo < count($condutores)){
+                return redirect()->back()->with('error', 'Muitos condutores selecionados! Quantidade de condutores deve ser: ' . $visita->quantidadePessoasEfetivo);
+            }
+
+            if($visita->quantidadePessoasEfetivo > count($condutores)){
+                return redirect()->back()->with('error', 'Poucos condutores selecionados! Quantidade de condutores deve ser: ' . $visita->quantidadePessoasEfetivo);
+            }
 
             // vincula os condutores que precisam ser vinculados
             $visita->condutores()->sync($condutores->pluck('id')->toArray());
 
-            // verificar se todos os roteiros possuem um condutor habilitado
+            // Verificar se todos os roteiros possuem um condutor habilitado
             $roteirosComCondutorHabilitado = 0;
-            foreach ($visita->roteiros as $roteiro) {
-                foreach($visita->condutores as $condutor){
-                    // verifica se um roteiros que o condutor é habilitado, é igual ao roteiro da visita
-                    if($condutor->roteiros()->get()->contains('id', $roteiro->id)){
+            $visita->load('roteiros'); // Carrega a relação
+            $roteirosIds = $visita->roteiros->pluck('id'); // Agora pluck deve funcionar
+
+            foreach ($visita->condutores as $condutor) {
+
+                // Obter todos os roteiros habilitados para o condutor de uma vez
+                $condutor->load('roteiros');
+                $roteirosHabilitados = $condutor->roteiros()->pluck('roteiros.id');
+
+                // Verifica quantos roteiros da visita estão habilitados pelo condutor
+                foreach ($roteirosIds as $roteiroId) {
+                    if ($roteirosHabilitados->contains($roteiroId)) {
                         $roteirosComCondutorHabilitado++;
-                        break;
                     }
                 }
             }
@@ -93,14 +106,21 @@ class CondutorVisitaController extends Controller
             // vincula os condutores que precisam ser vinculados
             $visita->condutores()->sync($condutores->pluck('id')->toArray());
 
-            // verifica se todos os roteiros possuem um condutor habilitado
+            // Verificar se todos os roteiros possuem um condutor habilitado
             $roteirosComCondutorHabilitado = 0;
-            foreach ($visita->roteiros as $roteiro) {
-                foreach($visita->condutores as $condutor){
-                    // verifica se um dos roteiros que o condutor é habilitado, é igual ao roteiro da visita
-                    if($condutor->roteiros()->get()->contains('id', $roteiro->id)){
+            $visita->load('roteiros'); // Carrega a relação
+            $roteirosIds = $visita->roteiros->pluck('id'); // Agora pluck deve funcionar
+
+            foreach ($visita->condutores as $condutor) {
+
+                // Obter todos os roteiros habilitados para o condutor de uma vez
+                $condutor->load('roteiros');
+                $roteirosHabilitados = $condutor->roteiros()->pluck('roteiros.id');
+
+                // Verifica quantos roteiros da visita estão habilitados pelo condutor
+                foreach ($roteirosIds as $roteiroId) {
+                    if ($roteirosHabilitados->contains($roteiroId)) {
                         $roteirosComCondutorHabilitado++;
-                        break;
                     }
                 }
             }

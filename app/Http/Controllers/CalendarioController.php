@@ -24,7 +24,7 @@ class CalendarioController extends Controller
 
             $data[] = [
                 'id' => $item['id'],
-                'title' => sprintf('%s %s/%s', $item['nome'], $item['lotacao'], $item['vagas_disponiveis']),
+                'title' => sprintf('%s %s/%s', $item['nome'], $item['vagas_disponiveis'], $item['lotacao']),
                 'text' => '',
                 'allDay' => true,
                 'type' => 'alert',
