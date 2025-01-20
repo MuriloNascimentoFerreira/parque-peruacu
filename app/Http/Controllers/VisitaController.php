@@ -9,6 +9,7 @@ use App\Models\Visita;
 use App\Traits\VerificaDisponibilidade;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 
 class VisitaController extends Controller
 {
@@ -20,6 +21,9 @@ class VisitaController extends Controller
      */
     public function index()
     {
+        // Chama o comando Artisan
+        Artisan::call('visitas:clean');
+
         if(auth()->user()->profile === Profile::USER_VISITANTE){
             $entities = Visita::query()->where('user_id', auth()->user()->id)->paginate(10);
             return view('visita.index')->with('entities', $entities);
