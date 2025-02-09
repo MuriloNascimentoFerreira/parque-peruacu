@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Enums\Situacao;
 use App\Models\Roteiro;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -27,6 +28,8 @@ class RoteiroRepository
                 $join->on('visitas.id', '=', 'roteiro_visita.visita_id')
                     ->where('visitas.data', $visita->data);
             })
+            ->leftJoin('agendamentos', 'visitas.agendamento_id', '=', 'agendamentos.id')
+            ->whereNotIn('situacao', [Situacao::SITUACAO_RECUSADA, Situacao::SITUACAO_CANCELADA])
             ->select('roteiros.id',
                 'roteiros.lotacao',
                 'roteiros.nome',
@@ -50,6 +53,8 @@ class RoteiroRepository
                 $join->on('visitas.id', '=', 'roteiro_visita.visita_id')
                     ->where('visitas.data', $visita->data);
             })
+            ->leftJoin('agendamentos', 'visitas.agendamento_id', '=', 'agendamentos.id')
+            ->whereNotIn('situacao', [Situacao::SITUACAO_RECUSADA, Situacao::SITUACAO_CANCELADA])
             ->select('roteiros.id',
                 'roteiros.lotacao',
                 'roteiros.nome',
@@ -81,7 +86,10 @@ class RoteiroRepository
 
         foreach ($datasDoAno as $data) {
             $roteiros = Roteiro::with(['visitas' => function ($query) use ($data) {
-                $query->where('data', $data);
+                $query->where('data', $data)
+                    ->whereHas('agendamento', function ($agendamentoQuery) {
+                        $agendamentoQuery->whereNotIn('situacao', [Situacao::SITUACAO_RECUSADA, Situacao::SITUACAO_CANCELADA]);
+                    });
             }])->get();
 
             foreach ($roteiros as $roteiro) {

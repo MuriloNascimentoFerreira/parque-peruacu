@@ -27,14 +27,14 @@
                     </div>
                 @endcan
 
-                @can('visitante')
+                {{-- @can('visitante')
                     <!-- Navigation Links -->
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                         <x-nav-link :href="route('visitas.index')" :active="request()->routeIs('visitas.index')">
                             {{ __('messages.visitas') }}
                         </x-nav-link>
                     </div>
-                @endcan
+                @endcan --}}
 
                 <!-- Navigation Links -->
                 @can('admin')
@@ -61,13 +61,13 @@
                     </div>
                 @endcan
 
-                @can('admin')
+                @auth
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                         <x-nav-link :href="route('agendamentos.index')" :active="request()->routeIs('agendamentos.*')">
                             {{ __('messages.agendamentos') }}
                         </x-nav-link>
                     </div>
-                @endcan
+                @endauth
             </div>
 
             @auth

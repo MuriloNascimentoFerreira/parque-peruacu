@@ -22,11 +22,12 @@
             </div>
             <!-- Modal body -->
             <div class="p-4 md:p-5 space-y-2">
-                <div class="text-center">Informações do agendamento</div>
-                <div><strong>Data:</strong> {{$entity->visita->data->format('d/m/Y')}}</div>
+                <div class="text-center font-bold">Informações do agendamento</div>
+                <div><strong>Data:</strong> {{isset($entity->visita) ? $entity->visita->data->format('d/m/Y') : '--/--/--'}}</div>
                 <div><strong>Situação:</strong> {{$entity->situacao->getDescription()}}</div>
                 <div><strong>Motivo:</strong> {{$entity->motivo}}</div>
-                <div class="text-center">Responsável pelo agendamento</div>
+                <div><strong>Período de chegada:</strong>{{$entity->visita->periodo->getDescription()}}</div>
+                <div class="text-center font-bold">Responsável pelo agendamento</div>
                 <div><strong>Responsável:</strong> {{$entity->nomeResponsavel}}</div>
                 <div><strong>E-mail:</strong> {{$entity->email}}</div>
                 <div><strong>Telefone:</strong> {{$entity->telefones && $entity->telefones()->first()->descricao ? $entity->telefones()->first()->descricao.' - ':''}}{{$entity->telefones()->first()->numero}}</div>
@@ -34,7 +35,18 @@
                 <div><strong>Cidade:</strong> {{$entity->localidade->cidade}}</div>
                 <div><strong>UF:</strong> {{$entity->localidade->uf}}</div>
                 <div><strong>País:</strong> {{$entity->localidade->pais}}</div>
-            </div>
+                <div class="text-center font-bold">Roteiros</div>
+                <div>
+                    @foreach ($entity->visita->roteiros as $roteiro)
+                        {{$roteiro->nome}}@if (!$loop->last), @else.@endif
+                    @endforeach
+                </div>
+                <div class="text-center font-bold">Condutores</div>
+                <div>
+                    @foreach ($entity->visita->condutores as $condutor)
+                        {{$condutor->nome}}@if(!$loop->last), @else.@endif
+                    @endforeach
+                </div>
         </div>
     </div>
 </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AgendamentoRequest;
 use App\Models\Agendamento;
 use App\Models\Enums\Profile;
+use App\Models\Enums\Situacao;
 use App\Models\Visita;
 use App\Services\AgendamentoService;
 use Exception;
@@ -25,7 +26,7 @@ class AgendamentoController extends Controller
             })->paginate(10);
             return view('agendamento.index')->with('entities', $entities);
         }
-        $entities = Agendamento::paginate(10);
+        $entities = Agendamento::orderBy('situacao')->paginate(10);
         return view('agendamento.index')->with('entities', $entities);
     }
 
@@ -124,6 +125,73 @@ class AgendamentoController extends Controller
         } catch(Exception $e){
             report($e);
             return redirect()->route('agendamentos.index')->with('error', 'Erro ao excluir um agendamento!');
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function cancelar(Agendamento $agendamento)
+    {
+        try{
+            $agendamento->situacao = Situacao::SITUACAO_CANCELADA;
+            $agendamento->save();
+            $agendamento->refresh();
+
+            if($agendamento->situacao == Situacao::SITUACAO_CANCELADA){
+                return redirect()->route('agendamentos.index')->with('success', 'Agendamento cancelado com sucesso!');
+            }
+            return redirect()->route('agendamentos.index')->with('error', 'Erro ao cancelar um agendamento!');
+        } catch(Exception $e){
+            report($e);
+            return redirect()->route('agendamentos.index')->with('error', 'Erro ao cancelar um agendamento!');
+        }
+    }
+
+    public function aprovar(Agendamento $agendamento)
+    {
+        try{
+            $agendamento->situacao = Situacao::SITUACAO_AGENDADA;
+            $agendamento->save();
+            $agendamento->refresh();
+
+            if($agendamento->situacao == Situacao::SITUACAO_AGENDADA){
+
+                /**
+                 * @todo Notificar o visitante sobre a aprovação do agendamento
+                 */
+                return redirect()->route('agendamentos.index')->with('success', 'Agendamento aprovado com sucesso!');
+            }
+            return redirect()->route('agendamentos.index')->with('error', 'Erro ao aprovar um agendamento!');
+        } catch(Exception $e){
+            report($e);
+            return redirect()->route('agendamentos.index')->with('error', 'Erro ao aprovar um agendamento!');
+        }
+    }
+
+    public function recusar(Agendamento $agendamento, Request $request)
+    {
+        try{
+            $agendamento->situacao = Situacao::SITUACAO_RECUSADA;
+            $agendamento->save();
+            $agendamento->refresh();
+
+            /**
+             * @todo Notificar o visitante sobre a recusa do agendamento.
+             * Com motivo da recusa.
+             * $request->motivo
+             */
+
+            if($agendamento->situacao == Situacao::SITUACAO_RECUSADA){
+                return redirect()->route('agendamentos.index')->with('success', 'Agendamento recusado com sucesso!');
+            }
+            return redirect()->route('agendamentos.index')->with('error', 'Erro ao recusar um agendamento!');
+        } catch(Exception $e){
+            report($e);
+            return redirect()->route('agendamentos.index')->with('error', 'Erro ao recusar um agendamento!');
         }
     }
 }

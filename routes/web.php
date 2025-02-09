@@ -50,6 +50,10 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/agendamentos/{agendamento}/edit', [AgendamentoController::class, 'edit'])->name('agendamentos.edit');
     Route::put('/agendamentos/{agendamento}', [AgendamentoController::class, 'update'])->name('agendamentos.update');
     Route::delete('/agendamentos/{agendamento}', [AgendamentoController::class, 'destroy'])->name('agendamentos.destroy');
+    Route::put('/agendamentos/{agendamento}/cancelar', [AgendamentoController::class, 'cancelar'])->name('agendamentos.cancelar');
+    Route::put('/agendamentos/{agendamento}/aprovar', [AgendamentoController::class, 'aprovar'])->name('agendamentos.aprovar');
+    Route::put('/agendamentos/{agendamento}/recusar', [AgendamentoController::class, 'recusar'])->name('agendamentos.recusar');
+
 
     Route::post('condutores/habilitar-condutores/{condutor}', HabilitarCondutorController::class)->name('condutores.habilitar-condutores');
 

@@ -31,7 +31,7 @@ class CleanForgottenVisits extends Command
         $this->info('Iniciando limpeza de visitas...');
         info('Limpeza de visitas iniciada...');
 
-        $visitasDeletadas = Visita::whereNull('agendamento_id')->where('created_at', '<=', now()->subMinutes(10))->delete();
+        $visitasDeletadas = Visita::whereNull('agendamento_id')->where('created_at', '<=', now()->subMinutes(2))->delete();
 
         $this->info('Visitas deletadas: ' . $visitasDeletadas);
         info('Visitas deletadas: ' . $visitasDeletadas);
