@@ -6,64 +6,133 @@ use App\Http\Requests\CondutorVisitaRequest;
 use App\Models\Condutor;
 use App\Models\Visita;
 use App\Traits\GetCondutoresHabilitados;
-use App\Traits\VerificaDisponibilidadeVisita;
+use Exception;
 
 /**
  * Classe responsável por vincular roteiros a uma visita
  */
 class CondutorVisitaController extends Controller
 {
-    use GetCondutoresHabilitados, VerificaDisponibilidadeVisita;
+    use GetCondutoresHabilitados;
     public function create(Visita $visita)
     {
-        $visita->roteiros();
-
-        // Verificar quais condutores são habilitados para esses roteiros
         //O condutor é listado quando é habilitado para no minimo um dos roteiros
         $condutores = $this->getCondutoresHabilitados($visita->roteiros);
 
         return view('condutorVisita.create', compact('condutores', 'visita'));
     }
 
+    /**
+     * @todo criar um service.
+     *
+     * @param CondutorVisitaRequest $request
+     * @param Visita $visita
+     * @return void
+     */
     public function store(CondutorVisitaRequest $request, Visita $visita)
     {
-        $condutores = Condutor::whereIn('id', $request->condutores)->get();
+        try{
+            $condutores = Condutor::whereIn('id', $request->condutores)->get();
+            if($visita->quantidadePessoasEfetivo < count($condutores)){
+                return redirect()->back()->with('error', 'Muitos condutores selecionados! Quantidade de condutores deve ser: ' . $visita->quantidadePessoasEfetivo);
+            }
 
-        $condutoresRequest = $request->input('condutores'); // array de IDs de condutores recebido pela request
-        $condutoresExistentes = $visita->condutores->pluck('id')->toArray(); // array de IDs de condutores já relacionados
+            if($visita->quantidadePessoasEfetivo > count($condutores)){
+                return redirect()->back()->with('error', 'Poucos condutores selecionados! Quantidade de condutores deve ser: ' . $visita->quantidadePessoasEfetivo);
+            }
 
-        $condutoresParaDetacher = array_diff($condutoresExistentes, $condutoresRequest); // array de IDs de condutores que precisam ser desvinculados
+            // vincula os condutores que precisam ser vinculados
+            $visita->condutores()->sync($condutores->pluck('id')->toArray());
 
-        $visita->condutores()->detach($condutoresParaDetacher);
+            // Verificar se todos os roteiros possuem um condutor habilitado
+            $roteirosComCondutorHabilitado = 0;
+            $visita->load('roteiros'); // Carrega a relação
+            $roteirosIds = $visita->roteiros->pluck('id'); // Agora pluck deve funcionar
 
-        $visita->condutores()->sync($condutores->pluck('id')->toArray());
+            foreach ($visita->condutores as $condutor) {
 
-        // $this->verificaDisponibilidadeVisita($visita);
+                // Obter todos os roteiros habilitados para o condutor de uma vez
+                $condutor->load('roteiros');
+                $roteirosHabilitados = $condutor->roteiros()->pluck('roteiros.id');
 
-        return redirect()->route('visitas.index')->with('success', 'Visita criada com sucesso!');
+                // Verifica quantos roteiros da visita estão habilitados pelo condutor
+                foreach ($roteirosIds as $roteiroId) {
+                    if ($roteirosHabilitados->contains($roteiroId)) {
+                        $roteirosComCondutorHabilitado++;
+                    }
+                }
+            }
+
+            if($roteirosComCondutorHabilitado < count($visita->roteiros)){
+                return redirect()->back()->with('error', 'É obrigatório ao menos um condutor habilitado para todos os roteiros selecionados!');
+            }
+
+            return redirect()->route('agendamentos.create', [$visita])
+                ->with('info', 'Último passo para concluir seu agendamento!');
+
+        } catch(Exception $e){
+            report($e->getMessage());
+            return redirect()->route('visitas.index')->with('error', 'Erro ao vincular condutores!');
+        }
     }
 
-    // public function edit(Visita $visita)
-    // {
-    //     $roteiros = Roteiro::all();
-    //     return view('roteiroVisita.edit', compact('roteiros', 'visita'));
-    // }
+    public function edit(Visita $visita)
+    {
+        //O condutor é listado quando é habilitado para no minimo um dos roteiros
+        $condutores = $this->getCondutoresHabilitados($visita->roteiros);
 
-    // public function update(RoteiroVisitaRequest $request, Visita $visita)
-    // {
-    //     $roteiros = Roteiro::whereIn('id', $request->roteiros)->get();
+        return view('condutorVisita.edit', compact('condutores', 'visita'));
+    }
 
-    //     $roteirosRequest = $request->input('roteiros'); // array de IDs de roteiros recebido pela request
-    //     $roteirosExistentes = $visita->roteiros->pluck('id')->toArray(); // array de IDs de roteiros já relacionados
+    public function update(CondutorVisitaRequest $request, Visita $visita)
+    {
+        try{
+            $condutores = Condutor::whereIn('id', $request->condutores)->get();
 
-    //     $roteirosParaDetacher = array_diff($roteirosExistentes, $roteirosRequest); // array de IDs de roteiros que precisam ser desvinculados
+            // array de IDs de condutores recebido pela request
+            $condutoresRequest = $request->input('condutores');
 
-    //     $visita->roteiros()->detach($roteirosParaDetacher);
+            // array de IDs de condutores já relacionados
+            $condutoresExistentes = $visita->condutores->pluck('id')->toArray();
 
-    //     $visita->roteiros()->sync($roteiros->pluck('id')->toArray());
+            // array de IDs de condutores que precisam ser desvinculados
+            $condutoresParaDetacher = array_diff($condutoresExistentes, $condutoresRequest);
 
-    //     return redirect()->route('visitas.index')->with('success', 'Visita editada com sucesso!');
-    // }
+            // desvincula os condutores que precisam ser desvinculados
+            $visita->condutores()->detach($condutoresParaDetacher);
+
+            // vincula os condutores que precisam ser vinculados
+            $visita->condutores()->sync($condutores->pluck('id')->toArray());
+
+            // Verificar se todos os roteiros possuem um condutor habilitado
+            $roteirosComCondutorHabilitado = 0;
+            $visita->load('roteiros'); // Carrega a relação
+            $roteirosIds = $visita->roteiros->pluck('id'); // Agora pluck deve funcionar
+
+            foreach ($visita->condutores as $condutor) {
+
+                // Obter todos os roteiros habilitados para o condutor de uma vez
+                $condutor->load('roteiros');
+                $roteirosHabilitados = $condutor->roteiros()->pluck('roteiros.id');
+
+                // Verifica quantos roteiros da visita estão habilitados pelo condutor
+                foreach ($roteirosIds as $roteiroId) {
+                    if ($roteirosHabilitados->contains($roteiroId)) {
+                        $roteirosComCondutorHabilitado++;
+                    }
+                }
+            }
+
+            if($roteirosComCondutorHabilitado < count($visita->roteiros)){
+                return redirect()->back()->with('error', 'É obrigatório ao menos um condutor habilitado para todos os roteiros selecionados!');
+            }
+
+            return redirect()->route('visitas.index')->with('success', 'Visita editada com sucesso!');
+        } catch(Exception $e){
+            report($e);
+            return redirect()->route('visitas.index')->with('error', 'Erro ao atualizar e vincular condutores!');
+        }
+    }
 }
 
 

@@ -41,7 +41,7 @@
 
             <div class="flex flex-col justify-center">
                 <h1 class="text-4xl mb-4">Web site do Parna Cavernas do Peruaçu</h1>
-                    <a class="text-xl bg-blue-400 p-2 text-white rounded-lg text-center" href="{{ route('magic-login-store') }}">Criar Agendamento</a>
+                    <a class="text-xl bg-blue-400 p-2 text-white rounded-lg text-center" href="{{ route('visitas-convidado.calendario') }}">Criar Agendamento</a>
                 {{-- Colocar o link pra o caléndário com dias e horarios disponiveis --}}
             </div>
 

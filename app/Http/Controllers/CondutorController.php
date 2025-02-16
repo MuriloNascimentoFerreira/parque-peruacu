@@ -19,6 +19,10 @@ class CondutorController extends Controller
      */
     public function index()
     {
+        // Verificar se é rota de api ou não
+        if(request()->segment(1) == 'api'){
+            return response()->json(Condutor::all()->toArray());
+        }
         $roteiros = Roteiro::all();
         $entities = Condutor::paginate(10);
         return view('condutor.index')->with('entities', $entities)->with('roteiros', $roteiros);

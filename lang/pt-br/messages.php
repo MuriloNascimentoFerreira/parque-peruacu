@@ -5,6 +5,8 @@ return [
     'login' => 'Entrar',
     'logOut' => 'Sair',
     'forgotPassword?' => 'Esqueceu a senha?',
+    'alreadyRegistered?' => 'Já possui uma conta?',
+    'register' => 'Registrar-se',
     'password' => 'Senha',
     'email' => 'Email',
     'dashboard' => 'Início',
@@ -28,9 +30,21 @@ return [
     'condutorEdit' => 'Editar condutor',
     'condutor' => 'Condutor',
     'agendamentos' => 'Agendamentos',
-    'agendamentoNew' => 'Novo agendamento',
+    'agendamentoNew' => 'Concluir agendamento',
     'agendamentoEdit' => 'Editar agendamento',
     'agendamento' => 'Agendamento',
-    'roteiroVisita' => 'Vincular roteiros a visita',
-    'condutorVisita' => 'Vincular condutor a visita',
+    'roteiroVisita' => 'Adicione os roteiros a sua visita',
+    'condutorVisita' => 'Adicione os condutores a sua visita',
+    'verification' => [
+        'subject' => 'Verifique seu email',
+        'body' => 'Clique no link abaixo para verificar seu email.',
+    ],
+    'greeting' => 'Olá!',
+    'salutation' => 'Atenciosamente',
+
+    //Verificação de email
+    'verifyYourEmailMsg' => "Obrigado por se inscrever! Antes de começar, você poderia verificar seu endereço de email clicando no link que acabamos de enviar para você? Se você não recebeu o email, ficaremos felizes em enviar outro.",
+    'newVerificationLinkSent' => "Um novo link de verificação foi enviado para o endereço de email que você forneceu durante o registro.",
+    'forgotPasswordText' => "Esqueceu a senha? Sem problema. Basta informar seu endereço de email e vamos enviar um link de redefinição de senha para que você possa escolher uma nova.",
+    "sendPasswordResetLink" => "Enviar link de redefinição",
 ];

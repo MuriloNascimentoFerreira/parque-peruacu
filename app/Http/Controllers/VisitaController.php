@@ -3,13 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\VisitaRequest;
+use App\Models\Enums\Profile;
+use App\Models\Enums\Situacao;
 use App\Models\Roteiro;
 use App\Models\Visita;
+use App\Traits\VerificaDisponibilidade;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Redirect;
 
 class VisitaController extends Controller
 {
+    use VerificaDisponibilidade;
     /**
      * Display a listing of the resource.
      *
@@ -17,6 +23,9 @@ class VisitaController extends Controller
      */
     public function index()
     {
+        if(auth()->user()->profile === Profile::USER_VISITANTE){
+        return abort(403, 'Acesso não autorizado');
+        }
         $entities = Visita::paginate(10);
         return view('visita.index')->with('entities', $entities);
     }
@@ -40,19 +49,42 @@ class VisitaController extends Controller
      */
     public function store(VisitaRequest $request)
     {
-        // Verifica se a quantidade de pessoas para cada condutor ultrapassa 8
-        if($request->quantidadePessoas/$request->quantidadePessoasEfetivo > 8){
-            return redirect()->route('visitas.index')->with('error', 'A quantidade de pessoas devem ser  de 8 pessoas para um condutor');
-        }
-
-        $entity = Visita::create($request->all());
-        if($entity){
-            return redirect()->route('roteiro-visita.create', ['visita' => $entity->id]);
-        }
         try{
+            // Verifica se a quantidade de pessoas para cada condutor ultrapassa 8
+            if($request->quantidadePessoas/$request->quantidadePessoasEfetivo > 8){
+                return redirect()->route('visitas.create')->with('error', 'A quantidade de pessoas devem ser  de 8 pessoas para um condutor');
+            }
+
+            // Para não adicionar mais de uma visita para o mesmo dia de uma mesma pessoa
+            $visitaRepetida = Visita::query()
+                ->where('data', $request->data)
+                ->whereHas('agendamento', function ($agendamentoQuery) {
+                    $agendamentoQuery->whereNotIn('situacao', [Situacao::SITUACAO_RECUSADA, Situacao::SITUACAO_CANCELADA]);
+                })
+                ->first();
+
+            if( isset($visitaRepetida) && auth()->user()->id === $visitaRepetida->user->id){
+
+                if(isset($visitaRepetida->agendamento)){
+                    return redirect()->route('agendamentos.index')->with('error', 'Já existe uma visita agendada para esse dia!<br>Cancele ela para criar uma nova');
+                }
+
+                $visitaRepetida->roteiros()->detach();
+                $visitaRepetida->condutores()->detach();
+                $visitaRepetida->delete();
+            }
+
+            if(!$this->verificaDisponibilidadeVisita($request->all())){
+                return redirect()->route('visitas.create')->with('error', 'Quantidade de vagas disponíveis para essa data é insuficiente! Volte ao calendário para verificar as vagas disponíveis!');
+            }
+
+            $entity = Visita::create($request->all());
+            if($entity){
+                return redirect()->route('roteiro-visita.create', ['visita' => $entity->id]);
+            }
         } catch(Exception $e){
             report($e);
-            return redirect()->route('visitas.index')->with('error', 'Erro ao criar uma visita!');
+            return Redirect::back()->with('error', 'Erro ao criar uma visita!');
         }
     }
 
@@ -88,13 +120,17 @@ class VisitaController extends Controller
     public function update(VisitaRequest $request, Visita $visita)
     {
         try{
+            if(!$this->verificaDisponibilidadeVisita($request->all())){
+                return redirect()->route('visitas.edit', ['visita' => $visita])->with('error', 'Quantidade de vagas disponíveis para essa data é insuficiente! Volte ao calendário para verificar as vagas disponíveis!');
+            }
+
             $result = $visita->update($request->all());
             if($result){
             return redirect()->route('roteiro-visita.edit', ['visita' => $visita->id]);
             }
         } catch(Exception $e){
             report($e);
-            return redirect()->route('visitas.index')->with('error', 'Erro ao editar uma visita!');
+            return redirect()->route('visitas.edit')->with('error', 'Erro ao editar uma visita!');
         }
     }
 
@@ -107,6 +143,8 @@ class VisitaController extends Controller
     public function destroy(Visita $visita)
     {
         try{
+            $visita->roteiros()->detach();
+            $visita->condutores()->detach();
             $result = $visita->delete();
             if($result){
                 return redirect()->route('visitas.index')->with('success', 'Visita excluída com sucesso!');

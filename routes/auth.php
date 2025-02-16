@@ -33,35 +33,32 @@ Route::middleware('guest')->group(function () {
                 ->name('password.store');
 
     /* Visitantes */
+
+    // Mostra rota de realizar login do visitante
     Route::get('magic-login', [MagicAuthenticatedSessionController::class, 'create'])
                 ->name('magic-login-create');
 
+    //realiza o login do visitante
     Route::post('magic-login', [MagicAuthenticatedSessionController::class, 'store'])
                 ->name('magic-login-store');
 
+    // Rota que faz altentificação do link enviado por email e da acesso ao usuário.
     Route::get('magic-login/{email}', [MagicAuthenticatedSessionController::class, 'authenticate'])
                 ->middleware('signed')
                 ->name('magic-login-auth');
 
+    // Rota de cadastro de visitante
     Route::get('magic-register', [MagicRegisteredUserController::class, 'create'])
                 ->name('magic-register');
 
+    // Realiza o cadastro do visitante
     Route::post('magic-register', [MagicRegisteredUserController::class, 'store'])
                 ->name('magic-register');
+
 
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('verify-email', EmailVerificationPromptController::class)
-                ->name('verification.notice');
-
-    Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
-                ->middleware(['signed', 'throttle:6,1'])
-                ->name('verification.verify');
-
-    Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-                ->middleware('throttle:6,1')
-                ->name('verification.send');
 
     Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
                 ->name('password.confirm');
@@ -81,4 +78,20 @@ Route::middleware('auth')->group(function () {
         Route::post('register', [RegisteredUserController::class, 'store']);
 
     });
+
+    // Retorna view informando que o email precisa ser verificado ou se caso o email ja foi verificado, redirecionar para cadastrar visita.
+    Route::get('verify-email', EmailVerificationPromptController::class)
+        ->name('verification.notice');
+
 });
+
+// O usuário precisa ser um convidado ou está logado para acessar essa rota? não!
+// Rota que faz altenticação do link enviado por email e da acesso ao usuário.
+Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
+->middleware(['signed', 'throttle:6,1'])
+->name('verification.verify');
+
+// Rota que envia o link de autenticação para o email do visitante novamente
+Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
+->middleware('throttle:6,1')
+->name('verification.send');

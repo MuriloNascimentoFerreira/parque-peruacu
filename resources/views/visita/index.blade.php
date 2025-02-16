@@ -32,18 +32,20 @@
                                             <td class="px-6 py-4">{{$entity->quantidadePessoas}}</td>
                                             <td class="px-6 py-4">{{$entity->quantidadePessoasEfetivo}}</td>
                                             <td class="px-6 py-4">{{$entity->periodo->getDescription()}}</td>
-                                            <td class="px-2 py-1">
+                                            <td class="px-2 py-1 flex justify-content: space-between">
 
                                                 @if (empty($entity->agendamento))
                                                     <a href="{{ route('agendamentos.create',  $entity) }}" class="text-black bg-yellow-400 hover:bg-yellow hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-2">
                                                         Criar
                                                         Agendamento
                                                     </a>
+
                                                 @endif
 
-                                                <x-button-edit route="visitas.edit" :entity="$entity"/>
-
-                                                <x-button-remove route="visitas.destroy" :entity="$entity"/>
+                                                <div class="text-right">
+                                                    <x-button-edit route="visitas.edit" :entity="$entity"/>
+                                                    <x-button-remove route="visitas.destroy" :entity="$entity"/>
+                                                </div>
 
                                             </td>
 

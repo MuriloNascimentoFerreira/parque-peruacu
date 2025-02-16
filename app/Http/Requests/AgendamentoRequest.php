@@ -15,7 +15,7 @@ class AgendamentoRequest extends FormRequest
      */
     public function authorize()
     {
-        if($this->user()->profile === Profile::USER_ADMINISTRADOR){
+        if($this->user()->profile === Profile::USER_ADMINISTRADOR || $this->user()->profile === Profile::USER_VISITANTE){
             return true;
         }
         return false;
@@ -39,11 +39,9 @@ class AgendamentoRequest extends FormRequest
     {
 
         return [
-            'data' => ['required', 'date','date_format:Y-m-d'],
             'nomeResponsavel' => ['required','max:255','string'],
             'email' => ['required','email'],
             'motivo' => ['required','max:255','string'],
-            'situacao' => ['required'],
             'cep' => ['required','max:255','string'],
             'cidade' => ['required','max:255','string'],
             'uf' => ['required','max:2','string'],
@@ -56,9 +54,6 @@ class AgendamentoRequest extends FormRequest
     public function messages()
     {
         return[
-            'data.required' => 'A data é obrigatória',
-            'data.date' => 'A data deve ser uma data válida',
-            'data.date_format' => 'A data deve estar no formato Y-m-d',
             'nomeResponsavel.required' => 'O nome do responsável é obrigatório',
             'nomeResponsavel.max' => 'O nome do responsável não pode ter mais de 255 caracteres',
             'nomeResponsavel.string' => 'O nome do responsável deve ser uma string',
@@ -67,7 +62,6 @@ class AgendamentoRequest extends FormRequest
             'motivo.required' => 'O motivo é obrigatório',
             'motivo.max' => 'O motivo não pode ter mais de 255 caracteres',
             'motivo.string' => 'O motivo deve ser uma string',
-            'situacao.required' => 'A situação é obrigatória',
             'cep.required' => 'O CEP é obrigatório',
             'cep.max' => 'O CEP não pode ter mais de 255 caracteres',
             'cep.string' => 'O CEP deve ser uma string',

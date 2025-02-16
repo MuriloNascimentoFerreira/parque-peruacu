@@ -31,4 +31,14 @@ class Localidade extends Model
     {
         return $this->belongsTo(Condutor::class);
     }
+
+    public function toArray()
+    {
+        $data = parent::toArray();
+        $data['cep'] = $this->cep;
+        $data['cidade'] = $this->cidade;
+        $data['uf'] = $this->uf;
+        $data['pais'] = $this->pais;
+        return $data;
+    }
 }

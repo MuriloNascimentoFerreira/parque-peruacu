@@ -3,3 +3,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.fc-novo-button{
+    background: #84cc16 !important;
+    border: #84cc16 !important;
+}
+
+.fc-novo-button:hover{
+    background: #4d7c0f !important;
+    border: #4d7c0f !important;
+}

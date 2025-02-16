@@ -22,7 +22,6 @@ class Condutor extends Model
         'nome',
         'apelido',
         'email',
-        'localidade',
         'linguasEstrangeiras',
         'escolaridade',
         'instagram',
@@ -39,6 +38,8 @@ class Condutor extends Model
     protected $casts = [
         'escolaridade' => Escolaridade::class,
     ];
+
+    protected $hidden = ['localidade_id'];
 
     public function localidade()
     {
@@ -58,6 +59,20 @@ class Condutor extends Model
     public function visitas()
     {
         return $this->belongsToMany(visita::class, 'condutor_roteiro');
+    }
+
+    public function toArray()
+    {
+        $data = parent::toArray();
+        $data['nome'] = $this->nome;
+        $data['apelido'] = $this->apelido;
+        $data['escolaridade'] = $this->escolaridade->getDescription();
+        $data['localidade'] = $this->localidade->toArray();
+        $data['linguasEstrangeiras'] = $this->linguasEstrangeiras;
+        $data['instagram'] = $this->instagram;
+        $data['facebook'] = $this->facebook;
+        $data['informacoes'] = $this->informacoes;
+        return $data;
     }
 }
 
