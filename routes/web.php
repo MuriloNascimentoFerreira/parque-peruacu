@@ -1,10 +1,10 @@
 <?php
 
 use App\Http\Controllers\AgendamentoController;
-use App\Http\Controllers\AgendamentoConvidadoController;
 use App\Http\Controllers\CalendarioController;
 use App\Http\Controllers\CondutorController;
 use App\Http\Controllers\CondutorVisitaController;
+use App\Http\Controllers\ConfigVisitaController;
 use App\Http\Controllers\HabilitarCondutorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoteiroController;
@@ -67,8 +67,10 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('condutor-visita/{visita}/edit', [CondutorVisitaController::class, 'edit'])->name('condutor-visita.edit');
     Route::put('condutor-visita/{visita}', [CondutorVisitaController::class, 'update'])->name('condutor-visita.update');
 
-});
+    Route::get('config-visita', [ConfigVisitaController::class, 'index'])->name('config-visita.index');
+    Route::put('config-visita/{configVisita}', [ConfigVisitaController::class, 'update'])->name('config-visita.update');
 
+});
 
 // Retorna página do calendário com os roteiros disponiveis para o visitante.
 Route::get('visitas-convidado/', [VisitaConvidadoController::class, 'calendario'])->name('visitas-convidado.calendario');

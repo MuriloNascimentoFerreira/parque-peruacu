@@ -29,7 +29,10 @@ class RoteiroRepository
                     ->where('visitas.data', $visita->data);
             })
             ->leftJoin('agendamentos', 'visitas.agendamento_id', '=', 'agendamentos.id')
-            ->whereNotIn('situacao', [Situacao::SITUACAO_RECUSADA, Situacao::SITUACAO_CANCELADA])
+            ->where(function ($query) {
+                $query->whereNull('agendamentos.situacao')
+                      ->orWhereNotIn('agendamentos.situacao', [Situacao::SITUACAO_RECUSADA, Situacao::SITUACAO_CANCELADA]);
+            })
             ->select('roteiros.id',
                 'roteiros.lotacao',
                 'roteiros.nome',
@@ -54,7 +57,10 @@ class RoteiroRepository
                     ->where('visitas.data', $visita->data);
             })
             ->leftJoin('agendamentos', 'visitas.agendamento_id', '=', 'agendamentos.id')
-            ->whereNotIn('situacao', [Situacao::SITUACAO_RECUSADA, Situacao::SITUACAO_CANCELADA])
+            ->where(function ($query) {
+                $query->whereNull('agendamentos.situacao')
+                      ->orWhereNotIn('agendamentos.situacao', [Situacao::SITUACAO_RECUSADA, Situacao::SITUACAO_CANCELADA]);
+            })
             ->select('roteiros.id',
                 'roteiros.lotacao',
                 'roteiros.nome',

@@ -16,10 +16,10 @@
                                 <thead class="text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                     <tr>
                                         <th scope="col" class="px-3 py-3">#</th>
-                                        <th scope="col" class="px-3 py-3">Data</th>
+                                        <th scope="col" class="px-3 py-3">Data solicitação</th>
+                                        <th scope="col" class="px-3 py-3">Data visita</th>
                                         <th scope="col" class="px-3 py-3">Nome responsável</th>
                                         <th scope="col" class="px-3 py-3">E-mail</th>
-                                        <th scope="col" class="px-3 py-3">Motivo</th>
                                         <th scope="col" class="px-3 py-3">Situação</th>
                                         <th scope="col" class="px-1 py-1">Ações</th>
 
@@ -36,6 +36,7 @@
                                                     {{ $entity->id }}
                                             </button>
                                             </td>
+                                            <td class="px-6 py-4">{{ isset($entity->visita) ? $entity->visita->created_at->format('d/m/Y H:i') : '--/--/--' }}</td>
                                             <td class="px-6 py-4">{{ isset($entity->visita) ? $entity->visita->data->format('d/m/Y') : '--/--/--' }}</td>
                                             <td class="px-6 py-4">{{ $entity->nomeResponsavel }}</td>
                                             <td class="px-6 py-4">{{ $entity->email }}</td>

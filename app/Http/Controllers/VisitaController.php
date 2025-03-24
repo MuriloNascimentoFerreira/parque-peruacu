@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\VisitaRequest;
+use App\Models\ConfigVisita;
 use App\Models\Enums\Profile;
 use App\Models\Enums\Situacao;
 use App\Models\Roteiro;
 use App\Models\Visita;
+use App\Services\VisitaService;
 use App\Traits\VerificaDisponibilidade;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Redirect;
 
 class VisitaController extends Controller
@@ -38,7 +39,13 @@ class VisitaController extends Controller
     public function create()
     {
         $roteiros = Roteiro::all();
-        return view('visita.create')->with('roteiros', $roteiros);
+
+        // Necessário para que o js valide a quantidade de condutores de acordo com a quantidade de visitantes no front
+        $visitantesPorCondutor = ConfigVisita::orderBy('id', 'desc')->first()->visitantes_por_condutor;
+
+        return view('visita.create')
+            ->with('roteiros', $roteiros)
+            ->with('visitantesPorCondutor', $visitantesPorCondutor);
     }
 
     /**
@@ -47,12 +54,14 @@ class VisitaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(VisitaRequest $request)
+    public function store(VisitaRequest $request, VisitaService $service)
     {
         try{
-            // Verifica se a quantidade de pessoas para cada condutor ultrapassa 8
-            if($request->quantidadePessoas/$request->quantidadePessoasEfetivo > 8){
-                return redirect()->route('visitas.create')->with('error', 'A quantidade de pessoas devem ser  de 8 pessoas para um condutor');
+
+            $numeroCondutorPorVisitantes = ConfigVisita::orderBy('id', 'desc')->first()->visitantes_por_condutor;
+            // Verifica se a quantidade de pessoas para cada condutor ultrapassa o limite
+            if($request->quantidadePessoas/$request->quantidadePessoasEfetivo > $numeroCondutorPorVisitantes){
+                return redirect()->route('visitas.create')->with('error', sprintf('A quantidade de pessoas devem ser de %d pessoas para um condutor', $numeroCondutorPorVisitantes));
             }
 
             // Para não adicionar mais de uma visita para o mesmo dia de uma mesma pessoa
@@ -78,7 +87,7 @@ class VisitaController extends Controller
                 return redirect()->route('visitas.create')->with('error', 'Quantidade de vagas disponíveis para essa data é insuficiente! Volte ao calendário para verificar as vagas disponíveis!');
             }
 
-            $entity = Visita::create($request->all());
+            $entity = $service->create($request->all());
             if($entity){
                 return redirect()->route('roteiro-visita.create', ['visita' => $entity->id]);
             }
@@ -145,6 +154,10 @@ class VisitaController extends Controller
         try{
             $visita->roteiros()->detach();
             $visita->condutores()->detach();
+
+            if($visita->agendamento){
+                $visita->agendamento->delete();
+            }
             $result = $visita->delete();
             if($result){
                 return redirect()->route('visitas.index')->with('success', 'Visita excluída com sucesso!');
