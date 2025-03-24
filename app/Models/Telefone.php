@@ -25,4 +25,9 @@ class Telefone extends Model
     {
         return $this->belongsTo(Agendamento::class);
     }
+
+    public function condutor()
+    {
+        return $this->belongsTo(Condutor::class);
+    }
 }

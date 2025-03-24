@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Agendamento;
+use App\Models\ConfigVisita;
 use App\Models\Localidade;
 use App\Models\Telefone;
 use App\Models\Visita;
@@ -14,12 +15,10 @@ class VisitaService{
         $visita = new Visita();
         $visita->fill($data);
 
+        //Pegar o id da config de visita padrao
+        $visita->config_visita_id = ConfigVisita::orderBy('id', 'desc')->first()->id;
 
-        // a lotação maxima do roteiro é por dia
-        //Fazer uma consulta para verificar se o roteiro tem lotação maxima por dia
-        //Ou seja se o roteiro está disponivel para aquela data da visita.
-        //Pegar toda visita que tem relacionamento com um roteiro x, que seja na mesma data da visita solicitada, e que a quantidade de pessoas seja menor que a quantidade de pessoas solicitada pela nova visita.
-
+        $visita->save();
         return $visita;
     }
 

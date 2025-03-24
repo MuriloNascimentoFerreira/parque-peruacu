@@ -7,6 +7,8 @@ use App\Models\Agendamento;
 use App\Models\Enums\Profile;
 use App\Models\Enums\Situacao;
 use App\Models\Visita;
+use App\Notifications\StatusAprovadoNotification;
+use App\Notifications\StatusRecusadoNotification;
 use App\Services\AgendamentoService;
 use Exception;
 use Illuminate\Http\Request;
@@ -118,6 +120,9 @@ class AgendamentoController extends Controller
         try{
             $agendamento->localidade->delete();
             $agendamento->telefones->first()->delete();
+            if($agendamento->visita){
+                $agendamento->visita->delete();
+            }
             $result = $agendamento->delete();
             if($result){
                 return redirect()->route('agendamentos.index')->with('success', 'Agendamento excluído com sucesso!');
@@ -153,18 +158,17 @@ class AgendamentoController extends Controller
 
     public function aprovar(Agendamento $agendamento)
     {
-        try{
             $agendamento->situacao = Situacao::SITUACAO_AGENDADA;
             $agendamento->save();
             $agendamento->refresh();
 
             if($agendamento->situacao == Situacao::SITUACAO_AGENDADA){
 
-                /**
-                 * @todo Notificar o visitante sobre a aprovação do agendamento
-                 */
+                $agendamento->notify(new StatusAprovadoNotification());
                 return redirect()->route('agendamentos.index')->with('success', 'Agendamento aprovado com sucesso!');
             }
+        try{
+
             return redirect()->route('agendamentos.index')->with('error', 'Erro ao aprovar um agendamento!');
         } catch(Exception $e){
             report($e);
@@ -186,6 +190,7 @@ class AgendamentoController extends Controller
              */
 
             if($agendamento->situacao == Situacao::SITUACAO_RECUSADA){
+                $agendamento->notify(new StatusRecusadoNotification());
                 return redirect()->route('agendamentos.index')->with('success', 'Agendamento recusado com sucesso!');
             }
             return redirect()->route('agendamentos.index')->with('error', 'Erro ao recusar um agendamento!');

@@ -32,7 +32,7 @@ class CondutorRequest extends FormRequest
         /* Criar regras com base no atributos do condutor acima */
         return [
             'nome' => ['required','max:255','string'],
-            'apelido' => ['required','max:255','string'],
+            'apelido' => 'max:255',
             'email' => ['required','email'],
             'linguasEstrangeiras' => ['required','string'],
             'escolaridade' => ['required'],
@@ -43,6 +43,8 @@ class CondutorRequest extends FormRequest
             'cidade' => ['required','max:255','string'],
             'uf' => ['required','max:2','string'],
             'pais' => ['required','max:255','string'],
+            'descricao' => ['max:255'],
+            'numero' => ['required','max:15', 'string'],
         ];
     }
     public function messages()
@@ -52,9 +54,7 @@ class CondutorRequest extends FormRequest
             'nome.max' => 'O nome não pode ter mais de 255 caracteres.',
             'nome.string' => 'O nome deve ser uma string.',
 
-            'apelido.required' => 'O apelido é obrigatório.',
             'apelido.max' => 'O apelido não pode ter mais de 255 caracteres.',
-            'apelido.string' => 'O apelido deve ser uma string.',
 
             'email.required' => 'O email é obrigatório.',
             'email.email' => 'O email deve ser um endereço válido.',
@@ -84,6 +84,10 @@ class CondutorRequest extends FormRequest
             'pais.required' => 'O Pais é obrigatório',
             'pais.max' => 'O Pais não pode ter mais de 255 caracteres',
             'pais.string' => 'O Pais deve ser uma string',
+
+            'descricao.max' => 'A descrição não pode ter mais de 255 caracteres',
+            'numero.required' => 'O número é obrigatório',
+            'numero.max' => 'O número não pode ter mais de 15 caracteres',
         ];
     }
 }
