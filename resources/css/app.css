@@ -1,0 +1,27 @@
+@import "@fortawesome/fontawesome-free/css/all.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.fc-novo-button{
+    background: #84cc16 !important;
+    border: #84cc16 !important;
+}
+
+.fc-novo-button:hover{
+    background: #4d7c0f !important;
+    border: #4d7c0f !important;
+}
+
+.no-edit{
+    pointer-events: none;
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.no-edit:focus{
+    border: none !important;
+    box-shadow: none !important;
+}

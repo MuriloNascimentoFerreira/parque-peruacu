@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Illuminate\Support\Facades\Auth;
 
 class Authenticate extends Middleware
 {
@@ -14,6 +15,10 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
+        if(!Auth::check() && $request->fullUrl() == route('visitas.create')){
+            return route('magic-register');
+        }
+
         if (! $request->expectsJson()) {
             return route('login');
         }

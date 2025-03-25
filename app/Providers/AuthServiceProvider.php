@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Gate;
+use App\Models\Enums\Profile;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -25,6 +28,25 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('admin', function ($user) {
+            return $user->profile === Profile::USER_ADMINISTRADOR ? true : false;
+        });
+
+        Gate::define('funcionario', function ($user) {
+            return $user->profile === Profile::USER_FUNCIONARIO ? true : false;
+        });
+
+        Gate::define('visitante', function ($user) {
+            return $user->profile === Profile::USER_VISITANTE ? true : false;
+        });
+
+        VerifyEmail::toMailUsing(function ($notifiable, $url) {
+            return (new MailMessage)
+                ->from(env('MAIL_FROM_ADDRESS'))
+                ->subject('Verificação de e-mail')
+                ->line('Click no botão abaixo para verificar seu endereço de e-mail.')
+                ->action('Verificar e-mail', $url)
+                ->salutation(__('messages.salutation'));
+        });
     }
 }
