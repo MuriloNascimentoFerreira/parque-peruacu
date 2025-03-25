@@ -92,6 +92,13 @@
                                 {{ __('messages.profile') }}
                             </x-dropdown-link>
 
+                            @can('admin')
+                                <x-dropdown-link :href="route('config-visita.index')" :active="request()->routeIs('config-visita.*')">
+                                    {{ __('messages.configVisita') }}
+                                </x-dropdown-link>
+                            @endcan
+
+
                             <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf

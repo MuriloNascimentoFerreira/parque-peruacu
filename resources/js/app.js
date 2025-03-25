@@ -70,45 +70,54 @@ $(function () {
     });
 
     var calendarEl = document.getElementById('calendar');
-    var calendar = new Calendar(calendarEl, {
-        initialView: 'dayGridWeek',
-        locale: 'pt-BR',
-        timeZone: 'local',
-        navLinks: true,
-        nowIndicator: true,
-        dayMaxEventRows: true,
-        buttonText: {
-            year: 'Ano',
-            today: 'Hoje',
-            month: 'Mês',
-            week: 'Semana',
-            day: 'Dia'
-        },
-        headerToolbar: {
-            left: 'dayGridWeek dayGridMonth',
-            center: 'title',
-            right: 'novo prevYear,prev,next,nextYear'
-        },
-        customButtons: {
-            novo: {
-                text: 'Agendar visita',
-                click: function() {
-                    window.location.href = BASEURL + 'visitas/create';
+    if (calendarEl !==  null) {
+        var calendar = new Calendar(calendarEl, {
+            initialView: 'dayGridWeek',
+            locale: 'pt-BR',
+            timeZone: 'local',
+            navLinks: true,
+            nowIndicator: true,
+            dayMaxEventRows: true,
+            buttonText: {
+                year: 'Ano',
+                today: 'Hoje',
+                month: 'Mês',
+                week: 'Semana',
+                day: 'Dia'
+            },
+            headerToolbar: {
+                left: 'dayGridWeek dayGridMonth',
+                center: 'title',
+                right: 'novo prevYear,prev,next,nextYear'
+            },
+            customButtons: {
+                novo: {
+                    text: 'Agendar visita',
+                    click: function() {
+                        window.location.href = BASEURL + 'visitas/create';
+                    }
+                },
+            },
+            events: {
+                url: BASEURL + 'calendario',
+                type: 'GET',
+                error: function() {
+                    alert('Problema ao buscar os dados');
                 }
             },
-        },
-        events: {
-            url: BASEURL + 'calendario',
-            type: 'GET',
-            success: function(data) {
-                console.log(data);
-            },
-            error: function() {
-                alert('Problema ao buscar os dados');
-            }
-        },
+        });
+        calendar.render();
+    }
+
+    // Muda a quantidade de condutores de acordo número de pessoas
+    $('#quantidade-pessoas').on("change", function() {
+
+        var visitantesPorCondutor = parseInt($('#visitantesPorCondutor').val());
+        
+        var quantidadePessoas = parseInt($('#quantidade-pessoas').val());
+        var quantidadePessoasEfetivo = Math.ceil(quantidadePessoas / visitantesPorCondutor);
+        $('#quantidade-pessoas-efetivo').val(quantidadePessoasEfetivo);
     });
-    calendar.render();
 
 });
 

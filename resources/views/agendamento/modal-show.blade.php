@@ -26,7 +26,7 @@
                 <div><strong>Data:</strong> {{isset($entity->visita) ? $entity->visita->data->format('d/m/Y') : '--/--/--'}}</div>
                 <div><strong>Situação:</strong> {{$entity->situacao->getDescription()}}</div>
                 <div><strong>Motivo:</strong> {{$entity->motivo}}</div>
-                <div><strong>Período de chegada:</strong>{{$entity->visita->periodo->getDescription()}}</div>
+                <div><strong>Período de chegada:</strong>{{$entity->visita->periodo->getDescription()}} </div>
                 <div class="text-center font-bold">Responsável pelo agendamento</div>
                 <div><strong>Responsável:</strong> {{$entity->nomeResponsavel}}</div>
                 <div><strong>E-mail:</strong> {{$entity->email}}</div>

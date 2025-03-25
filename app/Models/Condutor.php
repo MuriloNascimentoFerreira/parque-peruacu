@@ -27,7 +27,7 @@ class Condutor extends Model
         'instagram',
         'facebook',
         'informacoes',
-        'localidade_id'
+        'localidade_id',
     ];
 
     /**
@@ -61,6 +61,10 @@ class Condutor extends Model
         return $this->belongsToMany(visita::class, 'condutor_roteiro');
     }
 
+    public function telefones(){
+        return $this->hasMany(Telefone::class);
+    }
+
     public function toArray()
     {
         $data = parent::toArray();
@@ -72,6 +76,8 @@ class Condutor extends Model
         $data['instagram'] = $this->instagram;
         $data['facebook'] = $this->facebook;
         $data['informacoes'] = $this->informacoes;
+        $data['telefone'] = $this->telefones->first()->toArray();
+        $data['roteiros'] = $this->getRoteirosNomes();
         return $data;
     }
 }

@@ -35,6 +35,7 @@ return [
     'agendamento' => 'Agendamento',
     'roteiroVisita' => 'Adicione os roteiros a sua visita',
     'condutorVisita' => 'Adicione os condutores a sua visita',
+    'configVisita' => 'Configurações de visita',
     'verification' => [
         'subject' => 'Verifique seu email',
         'body' => 'Clique no link abaixo para verificar seu email.',

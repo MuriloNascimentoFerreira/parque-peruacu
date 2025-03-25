@@ -6,6 +6,7 @@ use App\Http\Requests\CondutorRequest;
 use App\Models\Condutor;
 use App\Models\Localidade;
 use App\Models\Roteiro;
+use App\Models\Telefone;
 use App\Services\CondutorService;
 use Exception;
 use Illuminate\Http\Request;

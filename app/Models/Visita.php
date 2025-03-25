@@ -25,6 +25,7 @@ class Visita extends Model
         'quantidadePessoasEfetivo',
         'periodo',
         'user_id',
+        'config_visita_id',
     ];
 
      /**
@@ -42,9 +43,19 @@ class Visita extends Model
         return $this->belongsToMany(Roteiro::class, 'roteiro_visita');
     }
 
+    public function getRoteirosNomes()
+    {
+        return implode(', ', $this->roteiros()->pluck('nome')->toArray());
+    }
+
     public function condutores()
     {
         return $this->belongsToMany(Condutor::class, 'condutor_visita');
+    }
+
+    public function getCondutoresNomes()
+    {
+        return implode(', ', $this->condutores()->pluck('nome')->toArray());
     }
 
     public function agendamento()
@@ -55,5 +66,8 @@ class Visita extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function config(){
+        return $this->hasOne(ConfigVisita::class);
     }
 }

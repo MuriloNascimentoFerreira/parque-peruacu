@@ -31,8 +31,8 @@ class RoteiroRequest extends FormRequest
         return [
             'nome' => ['required','max:255','string'],
             'lotacao' => ['required', 'integer', 'max:255'],
-            'duracao' => 'integer',
-            'distancia' => 'numeric'
+            'duracao' => ['required','integer'],
+            'distancia' => ['required','numeric']
         ];
     }
 
@@ -51,8 +51,14 @@ class RoteiroRequest extends FormRequest
     public function messages()
     {
         return[
+            'nome.required' => 'O nome do roteiro deve ser preenchido',
+            'nome.max' => 'O nome do roteiro deve ter no máximo 255 caracteres',
+            'lotacao.required' => 'A lotação deve ser preenchida',
             'lotacao.integer' => 'Somente números inteiros',
             'lotacao.max' => 'Número máximo de 255',
+            'duracao.required' => 'A duração deve ser preenchida',
+            'duracao.integer' => 'Somente números inteiros',
+            'distancia.required' => 'A distância deve ser preenchida',
             'distancia.numeric' => 'A distância deve ser um número decimal'
         ];
     }

@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('descricao')->nullable();
             $table->string('numero');
-            $table->foreignId('agendamento_id')->constrained()->onDelete('cascade');
+            $table->foreignId('agendamento_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('condutor_id')->nullable()->constrained('condutores')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
 

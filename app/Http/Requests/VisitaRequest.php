@@ -59,7 +59,7 @@ class VisitaRequest extends FormRequest
             'data.date' => 'A data deve ser uma data válida',
             'data.date_format' => 'A data deve estar no formato dd/mm/aaaa',
             'periodo.required' => 'O período é obrigatório',
-            'quantidadePessoas.required' => 'A quantidade de pessoas é obrigatória',
+            'quantidadePessoas.required' => 'A quantidade condutores é obrigatória',
             'quantidadePessoasEfetivo.required' => 'A quantidade de pessoas efetivas é obrigatória',
             'quantidadePessoas.integer' => 'A quantidade de pessoas deve ser um número inteiro',
             'quantidadePessoasEfetivo.integer' => 'A quantidade de pessoas efetivas deve ser um número inteiro',
