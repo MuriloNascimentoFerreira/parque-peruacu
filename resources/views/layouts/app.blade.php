@@ -31,6 +31,10 @@
             </main>
         </div>
 
+        <footer class="text-center">
+            <h4>Desenvolvido por <a class="font-bold text-blue-800 hover:text-blue-600 hover:underline" href="https://www.linkedin.com/in/murilonascimentoferreira/" target="_blank">Murilo Nascimento</a> &copy; 2025</h4>
+        </footer>
+
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </body>

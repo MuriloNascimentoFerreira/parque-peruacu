@@ -20,10 +20,14 @@
                 </a>
             </div>
 
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
+            <div class="w-full sm:max-w-md px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
                 {{ $slot }}
             </div>
         </div>
+
+        <footer>
+            <h4>Desenvolvido por <a class="text-color-4" href="https://www.linkedin.com/in/murilonascimentoferreira/" target="_blank">Murilo Nascimento</a> &copy; 2025</h4>
+        </footer>
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
