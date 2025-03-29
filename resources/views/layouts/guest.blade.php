@@ -25,7 +25,7 @@
             </div>
         </div>
 
-        <footer>
+        <footer class="text-center">
             <h4>Desenvolvido por <a class="text-color-4" href="https://www.linkedin.com/in/murilonascimentoferreira/" target="_blank">Murilo Nascimento</a> &copy; 2025</h4>
         </footer>
 
