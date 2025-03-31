@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return redirect('https://peruacu.murilonascimento.tech');
+    return redirect('https://siteperuacu.murilonascimento.tech');
     // return view('welcome');
 });
 
