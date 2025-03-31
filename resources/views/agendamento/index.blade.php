@@ -40,7 +40,7 @@
                                             <td class="px-6 py-4">{{ isset($entity->visita) ? $entity->visita->data->format('d/m/Y') : '--/--/--' }}</td>
                                             <td class="px-6 py-4">{{ $entity->nomeResponsavel }}</td>
                                             <td class="px-6 py-4">{{ $entity->email }}</td>
-                                            <td class="px-6 py-4">{{ $entity->motivo }}</td>
+                                            {{-- <td class="px-6 py-4">{{ $entity->motivo }}</td> --}}
                                             <td class="px-6 py-4">{{ $entity->situacao->getDescription() }}</td>
                                             <td class="px-2 py-1">
 
