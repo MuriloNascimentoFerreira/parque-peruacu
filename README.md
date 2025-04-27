@@ -4,7 +4,7 @@
 Esse sistema tem como objetivo, facilitar o processo de agendamento de visitas ao Parna Cavernas do Peruaçu.
 
 Desenvolvido ultilizando o framework
-Laravel 9.52.
+Laravel 10.38.
 
 ## Dependências do sistema
 * PHP 8.1
