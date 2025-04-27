@@ -1,5 +1,5 @@
 /node_modules
-/public/build
+# /public/build foi comentado para fazer deploy usando heroku
 /public/hot
 /public/storage
 /storage/*.key
