@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('visitas:clean')->hourly();
+        $schedule->command('visitas:clean')->everyTenMinutes();
     }
 
     /**

@@ -15,11 +15,15 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
+
+        $urls = 'Primeira url:'.$request->fullUrl().' segunda:'.route('visitas.create');
+        \Log::info($urls);
+
         if(!Auth::check() && $request->fullUrl() == route('visitas.create')){
             return route('magic-register');
         }
 
-        if (! $request->expectsJson()) {
+        if (!$request->expectsJson()) {
             return route('login');
         }
     }
