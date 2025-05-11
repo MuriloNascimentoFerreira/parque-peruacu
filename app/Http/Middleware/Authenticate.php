@@ -16,9 +16,8 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
 
-
         if(!Auth::check() && $request->fullUrl() == route('visitas.create')){
-            return route('magic-register');
+            return route('magic-register-create');
         }
 
         if (!$request->expectsJson()) {

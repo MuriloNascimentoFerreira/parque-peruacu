@@ -25,8 +25,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return redirect('https://siteperuacu.murilonascimento.tech');
-    // return view('welcome');
+
+    if (env('APP_ENV') == 'production') {
+        return redirect('https://siteperuacu.murilonascimento.tech');
+    }
+
+    if (env('APP_ENV') == 'local') {
+        return view('welcome');
+    }
 });
 
 Route::get('/dashboard', function () {

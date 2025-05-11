@@ -44,18 +44,6 @@
                     <a class="text-xl bg-blue-400 p-2 text-white rounded-lg text-center" href="{{ route('visitas-convidado.calendario') }}">Criar Agendamento</a>
                 {{-- Colocar o link pra o caléndário com dias e horarios disponiveis --}}
             </div>
-
-
-            {{--
-                * Pensar se devo pedir login primeiro ou fornecer as informações de horarios livres primeiro para só depois dedir o login para confirmar o agendamento?
-
-                * Quando clicar em criar agendamento, aparecer opções para "Página do funcionário" e "Página do visitante"
-
-                --}}
-
-
-                </div>
-            </div>
             <div class="ml-4 text-center text-sm text-gray-500 sm:text-right sm:ml-0">
                 Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
             </div>

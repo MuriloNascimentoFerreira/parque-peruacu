@@ -1,5 +1,5 @@
 <x-guest-layout class="p-10">
-    <form method="POST" action="{{ route('magic-register') }}">
+    <form method="POST" action="{{ route('magic-register-store') }}">
         @csrf
 
         <h2 class="text-center font-bold">Bem-vindo! <br> Agende sua visita ao Peruaçu</h2>

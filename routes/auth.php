@@ -49,11 +49,11 @@ Route::middleware('guest')->group(function () {
 
     // Rota de cadastro de visitante
     Route::get('magic-register', [MagicRegisteredUserController::class, 'create'])
-                ->name('magic-register');
+                ->name('magic-register-create');
 
     // Realiza o cadastro do visitante
     Route::post('magic-register', [MagicRegisteredUserController::class, 'store'])
-                ->name('magic-register');
+                ->name('magic-register-store');
 
 
 });
@@ -80,7 +80,7 @@ Route::middleware('auth')->group(function () {
     });
 
     // Retorna view informando que o email precisa ser verificado ou se caso o email ja foi verificado, redirecionar para cadastrar visita.
-    Route::get('verify-email', EmailVerificationPromptController::class)
+    Route::get('verification-notice', EmailVerificationPromptController::class)
         ->name('verification.notice');
 
 });

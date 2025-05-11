@@ -48,4 +48,14 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Visita::class);
     }
+
+    public function serialize(): string
+    {
+        return serialize($this->toArray());
+    }
+
+    public function unserialize(string $data)
+    {
+        return $this->fill(unserialize($data));
+    }
 }
