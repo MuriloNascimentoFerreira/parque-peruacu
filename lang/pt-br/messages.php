@@ -48,4 +48,10 @@ return [
     'newVerificationLinkSent' => "Um novo link de verificação foi enviado para o endereço de email que você forneceu durante o registro.",
     'forgotPasswordText' => "Esqueceu a senha? Sem problema. Basta informar seu endereço de email e vamos enviar um link de redefinição de senha para que você possa escolher uma nova.",
     "sendPasswordResetLink" => "Enviar link de redefinição",
+
+    //Colaboradores
+    'colaboradores' => 'Colaboradores',
+    'colaboradorNew' => 'Novo colaborador',
+    'colaboradorEdit' => 'Editar colaborador',
+    'colaborador' => 'Colaborador',
 ];
