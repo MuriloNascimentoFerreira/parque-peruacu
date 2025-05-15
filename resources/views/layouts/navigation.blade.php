@@ -68,6 +68,14 @@
                         </x-nav-link>
                     </div>
                 @endauth
+
+                @can('admin')
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-nav-link :href="route('register.index')" :active="request()->routeIs('register.*')">
+                            {{ __('messages.colaboradores') }}
+                        </x-nav-link>
+                    </div>
+                @endcan
             </div>
 
             @auth
@@ -161,6 +169,13 @@
             <div class="pt-2 pb-3 space-y-1">
                 <x-responsive-nav-link :href="route('agendamentos.index')" :active="request()->routeIs('agendamentos.*')">
                     {{ __('messages.agendamentos') }}
+                </x-responsive-nav-link>
+            </div>
+        @endcan
+        @can('admin')
+            <div class="pt-2 pb-3 space-y-1">
+                <x-responsive-nav-link :href="route('register.index')" :active="request()->routeIs('register.*')">
+                    {{ __('messages.colaboradores') }}
                 </x-responsive-nav-link>
             </div>
         @endcan
