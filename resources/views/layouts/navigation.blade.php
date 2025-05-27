@@ -78,6 +78,13 @@
                 @endcan
             </div>
 
+
+            <div class="flex items-center justify-end flex-1">
+                <button onclick="toggleTheme()" class="bg-gray-300 dark:bg-gray-700 text-black dark:text-white px-4 py-2 rounded mt-2">
+                    <i id="theme-icon" class="fas"></i>
+                </button>
+            </div>
+
             @auth
 
                 <!-- Settings Dropdown -->

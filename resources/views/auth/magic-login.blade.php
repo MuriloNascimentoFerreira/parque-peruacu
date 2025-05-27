@@ -5,7 +5,7 @@
     <form method="POST" action="{{ route('magic-login-store') }}">
         @csrf
 
-        <h2 class="text-center font-bold">Ambiente visitantes</h2>
+        <h2 class="text-center font-bold dark:text-white">Ambiente visitantes</h2>
 
         @if (Session::has('success'))
             <div class="w-full p-4 rounded bg-green-100 text-green-600 font-bold my-4">

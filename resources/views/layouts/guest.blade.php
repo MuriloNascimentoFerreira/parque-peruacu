@@ -11,6 +11,41 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+        <script>
+            function setThemeIcon() {
+                const icon = document.getElementById('theme-icon');
+                if (document.documentElement.classList.contains('dark')) {
+                    icon.className = 'fas fa-sun'; // Sol para tema escuro
+                } else {
+                    icon.className = 'fas fa-moon'; // Lua para tema claro
+                }
+            }
+
+            // Detecta preferência do usuário ou sistema ao carregar a página
+            window.addEventListener('DOMContentLoaded', function() {
+                if (
+                    localStorage.theme === 'dark' ||
+                    (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+                ) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+                setThemeIcon(); // Atualiza o ícone ao carregar a página
+            });
+            // Função para alternar tema
+            function toggleTheme() {
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.theme = 'light';
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.theme = 'dark';
+                }
+                setThemeIcon(); // Atualiza o ícone ao alternar o tema
+            }
+        </script>
+
     </head>
     <body class="font-sans text-gray-900 antialiased">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">

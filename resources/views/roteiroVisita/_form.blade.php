@@ -1,4 +1,4 @@
-<h1 class="text-lg my-4 text-center">Selecione os roteiros <span class="text-red-500">*</span></h1>
+<h1 class="text-lg my-4 text-center dark:text-white">Selecione os roteiros <span class="text-red-500">*</span></h1>
 
 @php($roteirosDisponiveis = $roteiros->where('vagas_disponiveis', '>', 0)->count())
     @foreach ($roteiros as $roteiro)
