@@ -1,8 +1,8 @@
 {
     "private": true,
     "engines": {
-    "node": ">= 16.20.0",
-    "npm": ">= 9.6.4"
+        "node": ">= 16.20.0",
+        "npm": ">= 9.6.4"
     },
     "scripts": {
         "dev": "vite",

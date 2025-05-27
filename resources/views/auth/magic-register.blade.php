@@ -2,9 +2,9 @@
     <form method="POST" action="{{ route('magic-register-store') }}">
         @csrf
 
-        <h2 class="text-center font-bold">Bem-vindo! <br> Agende sua visita ao Peruaçu</h2>
+        <h2 class="text-center font-bold dark:text-white">Bem-vindo! <br> Agende sua visita ao Peruaçu</h2>
 
-        <p class="text-justify text-xs py-3">Estamos felizes em recebê-lo! Cadastre-se e agende sua visita para explorar as maravilhas do nosso parque.</p>
+        <p class="text-justify text-xs py-3 dark:text-white">Estamos felizes em recebê-lo! Cadastre-se e agende sua visita para explorar as maravilhas do nosso parque.</p>
 
         <!-- Name -->
         <div>

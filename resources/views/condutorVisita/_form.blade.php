@@ -1,4 +1,4 @@
-<h1 class="text-lg my-4 text-center">Selecione os condutores <span class="text-red-500">*</span></h1>
+<h1 class="text-lg my-4 text-center dark:text-white">Selecione os condutores <span class="text-red-500">*</span></h1>
 
 @foreach ($condutores as $condutor)
     <div class="flex items-center mb-4">

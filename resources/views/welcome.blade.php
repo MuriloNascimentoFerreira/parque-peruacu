@@ -20,31 +20,69 @@
             }
         </style>
 
+        <script>
+            function setThemeIcon() {
+                const icon = document.getElementById('theme-icon');
+                if (document.documentElement.classList.contains('dark')) {
+                    icon.className = 'fas fa-sun'; // Sol para tema escuro
+                } else {
+                    icon.className = 'fas fa-moon'; // Lua para tema claro
+                }
+            }
+
+            // Detecta preferência do usuário ou sistema ao carregar a página
+            window.addEventListener('DOMContentLoaded', function() {
+                if (
+                    localStorage.theme === 'dark' ||
+                    (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+                ) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+                setThemeIcon(); // Atualiza o ícone ao carregar a página
+            });
+            // Função para alternar tema
+            function toggleTheme() {
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.theme = 'light';
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.theme = 'dark';
+                }
+                setThemeIcon(); // Atualiza o ícone ao alternar o tema
+            }
+        </script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="antialiased">
-        <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
+        <div class="min-h-screen flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-900 py-4">
             @if (Route::has('login'))
-                <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
-                    @auth
-                        <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">{{__('messages.dashboard')}}</a>
-                    @else
-                        <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">{{__('messages.login')}}</a> {{-- pagina do visitante--}}
-
-                        @if (Route::has('register'))
-                            {{-- <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a> --}}
-                            {{-- pagina do funcionário--}}
-                        @endif
-                    @endauth
+                <div class="fixed top-0 right-0 px-6 py-4 flex flex-col items-end space-y-2">
+                    <button onclick="toggleTheme()" class="bg-gray-300 dark:bg-gray-700 text-black dark:text-white px-3 py-2 rounded shadow" title="Alternar tema">
+                        <i id="theme-icon" class="fas"></i>
+                    </button>
+                    <div>
+                        @auth
+                            <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 dark:text-gray-400 underline">{{ __('messages.dashboard') }}</a>
+                        @else
+                            <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-400 underline">{{ __('messages.login') }}</a>
+                            @if (Route::has('register'))
+                                {{-- <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-400 underline">Register</a> --}}
+                            @endif
+                        @endauth
+                    </div>
                 </div>
             @endif
 
-            <div class="flex flex-col justify-center">
-                <h1 class="text-4xl mb-4">Web site do Parna Cavernas do Peruaçu</h1>
-                    <a class="text-xl bg-blue-400 p-2 text-white rounded-lg text-center" href="{{ route('visitas-convidado.calendario') }}">Criar Agendamento</a>
-                {{-- Colocar o link pra o caléndário com dias e horarios disponiveis --}}
+            <div class="flex flex-col items-center mt-12">
+                <h1 class="text-4xl mb-4 text-center text-gray-900 dark:text-white">Web site do Parna Cavernas do Peruaçu</h1>
+                <a class="text-xl bg-blue-500 hover:bg-blue-600 p-2 text-white rounded-lg text-center" href="{{ route('visitas-convidado.calendario') }}">
+                    Criar Agendamento
+                </a>
             </div>
-            <div class="ml-4 text-center text-sm text-gray-500 sm:text-right sm:ml-0">
+            <div class="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
                 Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
             </div>
         </div>
