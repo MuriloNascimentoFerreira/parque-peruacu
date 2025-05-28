@@ -21,6 +21,7 @@
                                         <th scope="col" class="px-3 py-3">Telefone</th>
                                         <th scope="col" class="px-3 py-3">Localidade</th>
                                         <th scope="col" class="px-3 py-3">Línguas Estrangeiras</th>
+                                        <th scope="col" class="px-3 py-3">Escolaridade</th>
                                         <th scope="col" class="px-1 py-1">Ações</th>
 
                                     </tr>
