@@ -30,4 +30,12 @@ class Telefone extends Model
     {
         return $this->belongsTo(Condutor::class);
     }
+
+    public function toArray()
+    {
+        // $data = parent::toArray();
+        $data['descricao'] = $this->descricao ?? '';
+        $data['numero'] = $this->numero;
+        return $data;
+    }
 }

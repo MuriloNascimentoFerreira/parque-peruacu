@@ -25,7 +25,8 @@
                 <div><strong>Nome:</strong> {{$entity->nome}}</div>
                 <div><strong>Apelido:</strong> {{$entity->apelido}}</div>
                 <div><strong>E-mail:</strong> {{$entity->email}}</div>
-                <div><strong>Telefone:</strong> {{$entity->telefones()->first()->descricao}} - {{$entity->telefones()->first()->numero}}</div>
+                <div><strong>Telefone:</strong> {{$entity->telefones()->first()->descricao ?
+                    $entity->telefones()->first()->descricao.'-' : ''}}  {{$entity->telefones()->first()->numero}}</div>
                 <div><strong>Línguas Estrangeiras:</strong> {{$entity->linguasEstrangeiras}}</div>
                 <div><strong>Escolaridade:</strong> {{$entity->escolaridade->getDescription()}}</div>
                 <div><strong>Cep:</strong> {{$entity->localidade->cep}}</div>

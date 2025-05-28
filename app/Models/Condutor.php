@@ -67,7 +67,9 @@ class Condutor extends Model
 
     public function toArray()
     {
-        $data = parent::toArray();
+        // $data = parent::toArray();
+        $data['id'] = $this->id;
+        $data['email'] = $this->email;
         $data['nome'] = $this->nome;
         $data['apelido'] = $this->apelido;
         $data['escolaridade'] = $this->escolaridade->getDescription();

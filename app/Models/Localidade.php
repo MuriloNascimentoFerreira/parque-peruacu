@@ -34,7 +34,7 @@ class Localidade extends Model
 
     public function toArray()
     {
-        $data = parent::toArray();
+        // $data = parent::toArray();
         $data['cep'] = $this->cep;
         $data['cidade'] = $this->cidade;
         $data['uf'] = $this->uf;

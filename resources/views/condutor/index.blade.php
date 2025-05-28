@@ -21,7 +21,7 @@
                                         <th scope="col" class="px-3 py-3">Telefone</th>
                                         <th scope="col" class="px-3 py-3">Localidade</th>
                                         <th scope="col" class="px-3 py-3">Línguas Estrangeiras</th>
-                                        <th scope="col" class="px-3 py-3">Escolaridade</th>
+                                        {{-- <th scope="col" class="px-3 py-3">Escolaridade</th> --}}
                                         <th scope="col" class="px-1 py-1">Ações</th>
 
                                     </tr>
@@ -40,13 +40,13 @@
                                             <td class="px-6 py-4">{{ $entity->nome }}</td>
                                             <td class="px-6 py-4">{{ $entity->apelido }}</td>
                                             <td class="px-6 py-4">
-                                                {{ $entity->telefones()->first()->descricao }}-
+                                                {{ $entity->telefones()->first()->descricao ? $entity->telefones()->first()->descricao.'-' : '' }}
                                                 {{ $entity->telefones()->first()->numero }}
                                             </td>
                                             <td class="px-6 py-4">
                                                 {{ $entity->localidade->cidade }}-{{ $entity->localidade->uf }}</td>
                                             <td class="px-6 py-4">{{ $entity->linguasEstrangeiras }}</td>
-                                            <td class="px-6 py-4">{{ $entity->escolaridade->getDescription() }}</td>
+                                            {{-- <td class="px-6 py-4">{{ $entity->escolaridade->getDescription() }}</td> --}}
 
                                             <td class="px-2 py-1">
 
