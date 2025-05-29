@@ -10,8 +10,8 @@ enum Periodo: int
     public function getDescription(): string
     {
         return match ($this) {
-            self::PERIODO_MATUTINO => 'Matutino',
-            self::PERIODO_VESPERTINO => 'Vespertino',
+            self::PERIODO_MATUTINO => 'Manhã',
+            self::PERIODO_VESPERTINO => 'Tarde',
         };
     }
 }

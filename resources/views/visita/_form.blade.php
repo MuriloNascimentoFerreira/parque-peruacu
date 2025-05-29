@@ -30,7 +30,7 @@
 
     {{-- Criar um campo select e injetar a enumeração --}}
     <div class="mb-4 col-span-3">
-        <x-input-label for="periodo" :value="__('Período')" :required="true"/>
+        <x-input-label for="periodo" :value="__('Período chegada')" :required="true"/>
         <select id="periodo" name="periodo" class="mt-1 py-2.5 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" required>
             <option value="{{ isset($entity->periodo) ? $entity->periodo->value : ''}}">{{ isset($entity->periodo) ? $entity->periodo->getDescription() : 'Selecione um período'}}</option>
             @foreach (\App\Models\Enums\Periodo::cases() as $periodo)
