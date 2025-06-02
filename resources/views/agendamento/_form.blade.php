@@ -4,13 +4,13 @@
 
     <div class="mb-4 col-span-3">
         <x-input-label for="nomeResponsavel" :value="__('Nome do responsável')" :required="true"/>
-        <x-text-input  id="nomeResponsavel" name="nomeResponsavel" type="text" class="mt-1 block w-full" :value="$entity->nomeResponsavel ?? old('nomeResponsavel')"/>
+        <x-text-input  id="nomeResponsavel" name="nomeResponsavel" type="text" class="mt-1 block w-full" :value="$visita->user->name ?? old('nomeResponsavel')"/>
 
         <x-input-error :messages="$errors->get('nomeResponsavel')" class="mt-1" />
     </div>
     <div class="mb-4 col-span-2">
         <x-input-label for="email" :value="__('E-mail')" :required="true"/>
-        <x-text-input  id="email" name="email" type="email" class="mt-1 block w-full" :value="$entity->email ?? old('email')"/>
+        <x-text-input  id="email" name="email" type="email" class="mt-1 block w-full" :value="$visita->user->email ?? old('email')"/>
 
         <x-input-error :messages="$errors->get('email')" class="mt-1" />
     </div>
