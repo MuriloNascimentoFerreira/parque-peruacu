@@ -1,10 +1,12 @@
 <!-- Nome do sistema -->
 # Parna Peruaçu 
 
+Link apresentação sistema Linkedin [aqui](https://www.linkedin.com/posts/murilonascimentoferreira_tcc-laravel-php-ugcPost-7384548337762467840-UNKP/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAC5XUFQBhiMYd6YJedBsOyWnAfS7aEg_fpg)
+
 Esse sistema tem como objetivo, facilitar o processo de agendamento de visitas ao Parna Cavernas do Peruaçu.
 
 Desenvolvido ultilizando o framework
-Laravel 9.52.
+Laravel 10.0
 
 ## Dependências do sistema
 * PHP 8.1
